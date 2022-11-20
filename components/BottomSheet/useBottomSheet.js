@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { BOTTOM_SHEET_HEIGHT, BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants';
 
 
-export function useBottomSheet() {
+export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen) {
 
     const sheetRef = useRef();
   
@@ -129,15 +129,23 @@ export function useBottomSheet() {
     // Snap Animation
     const currentSheetY = sheetRef.current.getBoundingClientRect().y;
   
+    
+    const maxTransY = 0
+    const minTransY = -window.innerHeight*(BOTTOM_SHEET_HEIGHT-BOTTOM_SHEET_DBOTTOM_GAP)/100;
 
-    // if (touchMove.movingDirection === 'down') {
-    //   sheetRef.current.style.setProperty('transform', 'translateY(0%)');
-    // }
 
-    // if (touchMove.movingDirection === 'up') {
-    //   const maxVH = BOTTOM_SHEET_HEIGHT-BOTTOM_SHEET_DBOTTOM_GAP;
-    //   sheetRef.current.style.setProperty('transform', `translateY(-${maxVH}%)`);
-    // }
+    if (touchMove.movingDirection === 'down') {
+      sheetRef.current.style.setProperty('transform', `translateY(${maxTransY}px)`);
+
+      dirButtonRef.current.style.setProperty('transform', `rotate(0turn)`);
+      setBottomSheetOpen(false);
+    }
+
+    if (touchMove.movingDirection === 'up') {
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+      dirButtonRef.current.style.setProperty('transform', `rotate(0.5turn)`);
+      setBottomSheetOpen(true);
+    }
 
 
     console.log(touchStart,touchMove);
@@ -164,10 +172,12 @@ export function useBottomSheet() {
 
 
   useEffect(() =>{
-    const wow = (sheetRef.current.getBoundingClientRect().y);
-    // console.log(wow);
 
-  });
+    console.log(bottomSheetOpen);
+
+  },[bottomSheetOpen]);
+
+
 
   // Touch Event 핸들러들을 등록한다. 
   useEffect(() => {
@@ -182,10 +192,9 @@ export function useBottomSheet() {
       sheetRef.current.removeEventListener('touchstart', handleTouchStart);
       sheetRef.current.removeEventListener('touchmove', handleTouchMove);
       sheetRef.current.removeEventListener('touchend', handleTouchEnd);
+
     }
   })
-
-
 
   return { sheetRef };
 }
