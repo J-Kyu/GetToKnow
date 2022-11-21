@@ -7,13 +7,11 @@ import {BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants';
 import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
-  height: 48px;
+  min-height: ${BOTTOM_SHEET_DBOTTOM_GAP}vh;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   position: relative;
-   
-  padding-top: 16px;
-  padding-bottom: 4px;
+
 `;
 
 const Handle = styled.div`
@@ -63,10 +61,9 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
     return (
         <>
             <Wrapper>
-              <Row>
-                <HCol span={8}></HCol>
-                <HCol span={8}>
-                  <Handle/>
+              <Row style={{height: "100%"}}>
+                <HCol span={16} style={{justifyContent: "left", paddingLeft: "10vw"}}>
+                  <div style={{fontSize: "1.2rem" , color: "white"}}>로그인을 해주세요</div>
                 </HCol>
                 <HCol span={8} >
                   <UpOutlined ref={dirButtonRef} onClick={handleSheetHeader} style={{color: "white", fontSize: '250%'}} />

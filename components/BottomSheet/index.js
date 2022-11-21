@@ -12,7 +12,9 @@ const Wrapper = styled.div`
     position: fixed;
     z-index: 1;
     top: ${BOTTOM_SHEET_DTOP_GAP}%;
-    bottom: 10px;
+    // top: 0%;
+
+    // bottom: 10px;
     left: 0;
     right: 0;
 
@@ -21,7 +23,7 @@ const Wrapper = styled.div`
     background-color: black;
 
     height: ${BOTTOM_SHEET_HEIGHT}%;
-    transition: transform 150ms ease-out;;
+    transition: transform 1s ease-out;;
 `;
 
 

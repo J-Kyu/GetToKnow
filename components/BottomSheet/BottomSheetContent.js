@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import {BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants';
 
 const Wrapper = styled.div`
-    // top: ${BOTTOM_SHEET_DBOTTOM_GAP}%;
-    z-index: 3;
-    height: 800px;
-    width: 100%;
+    position: relative;
+    margin-left: 5vw;
+    margin-right: 5vw;
+
+
     color: white;
     background-color: gray;
     overflow: auto; 
@@ -18,14 +19,6 @@ const BottomSheetContent = ({contetRef}) => {
         <>
             <Wrapper ref = {contetRef}>
                 <p>-------------TOP--------------</p>
-                <p>wow</p>
-                <p>wow</p>
-                <p>wow</p>
-                <p>wow</p>
-                <p>wow</p>
-                <p>wow</p>
-                <p>wow</p>
-                <p>wow</p>
                 <p>wow</p>
                 <p>wow</p>
                 <p>wow</p>

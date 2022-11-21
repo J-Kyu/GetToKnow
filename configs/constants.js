@@ -1,6 +1,6 @@
 
 export const BOTTOM_SHEET_DBOTTOM_GAP = 10; //alpha
-export const BOTTOM_SHEET_HEIGHT= 60;       //k
+export const BOTTOM_SHEET_HEIGHT= 70;       //k
 export const BOTTOM_SHEET_DTOP_GAP = 100-BOTTOM_SHEET_DBOTTOM_GAP; //100-alpha
 
 
