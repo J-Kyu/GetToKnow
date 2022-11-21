@@ -15,7 +15,7 @@ const SubTitleWrapper = styled.div`
     top: 5vw;
     display: block;
     font-size: 10vw;
-    // color: white;
+    color: white;
 `
 const MainTitleWrapper = styled.div`
     

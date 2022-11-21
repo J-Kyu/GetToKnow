@@ -5,6 +5,7 @@ import { BOTTOM_SHEET_HEIGHT, BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants'
 export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen) {
 
     const sheetRef = useRef();
+    const contentRef = useRef();
   
     const [touchStart, setTouchStart] = useState({
         sheetY: 0,
@@ -19,31 +20,7 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
 
     const [isContentAreaTouched,setIsContentAreaTouched] = useState(false);
 
-
-  const canUserMoveBottomSheet = () => {
-    
-    // 바텀시트에서 컨텐츠 영역이 아닌 부분을 터치하면 항상 바텀시트를 움직입니다. 
-    if (!isContentAreaTouched) {
-      return true;
-    }
-  
-    // 바텀시트가 올라와있는 상태가 아닐 때는 컨텐츠 영역을 터치해도 바텀시트를 움직이는 것이 자연스럽습니다. 
-    // if (sheetRef.current.getBoundingClientRect().y !== MIN_Y) {
-    //   return true;
-    // }
-  
-    // if (touchMove.movingDirection === 'down') {
-  
-    //   // 스크롤을 더 이상 올릴 것이 없다면, 바텀시트를 움직이는 것이 자연스럽습니다. 
-    //   // Safari 에서는 bounding 효과 때문에 scrollTop 이 음수가 될 수 있습니다. 따라서 0보다 작거나 같음 (<=)으로 검사합니다. 
-    //   return content.current.scrollTop <= 0;
-    // }
-    
-    return false;
-  }
-
-
-
+  // sheet ref
   const handleTouchStart = useCallback((e) => {
 
 
@@ -52,20 +29,15 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
         touchY: e.touches[0].clientY
     });
 
-    console.log("Touch Start");
+    setTouchMove(prevState => ({
+      ...prevState, 
+      prevTouchY: e.touches[0].clientY
+    }));
+
   },[touchStart,sheetRef]);
 
   const handleTouchMove = useCallback((e) => {
-    console.log("Touch Move");
     const currentTouch = e.touches[0];
-
-    if (touchMove.prevTouchY !== undefined ){
-      setTouchMove(prevState => ({
-            ...prevState, 
-            prevTouchY: touchStart.touchY
-        }));
-    }
-
 
     if (touchMove.prevTouchY < currentTouch.clientY) {
   
@@ -79,14 +51,13 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
       setTouchMove(prevState => ({
         ...prevState, 
         movingDirection: 'up'
-    }));
-
+      }));
     }
 
-    if (canUserMoveBottomSheet()) {
+    if (isContentAreaTouched == false) {
 
-      // content에서 scroll이 발생하는 것을 막습니다. 
-      e.preventDefault();
+      // // content에서 scroll이 발생하는 것을 막습니다. 
+      // e.preventDefault();
   
       // 터치 시작점에서부터 현재 터치 포인트까지의 변화된 y값
       const touchOffset = (currentTouch.clientY - touchStart.touchY);
@@ -112,8 +83,6 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
       sheetRef.current.style.setProperty('transform', `translateY(${nextTranslateY}px)`);
       // sheetRef.current.style.setProperty('transform', `translateY(10px)`);
 
-
-      console.log("Bottom Sheet scrolling");
     } 
     else {
       
@@ -121,34 +90,41 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
       document.body.style.overflowY = 'hidden';
     }
 
+    //update old value
+    setTouchMove(prevState => ({
+          ...prevState, 
+          prevTouchY: currentTouch.clientY
+      }));
+    
 
-  },[touchMove,touchStart,sheetRef]);
+
+
+  },[touchMove,touchStart,isContentAreaTouched]);
 
   const handleTouchEnd = useCallback((e) => {
-    console.log("Touch End");
-    // Snap Animation
-    const currentSheetY = sheetRef.current.getBoundingClientRect().y;
-  
     
+    // Snap Animation 
     const maxTransY = 0
     const minTransY = -window.innerHeight*(BOTTOM_SHEET_HEIGHT-BOTTOM_SHEET_DBOTTOM_GAP)/100;
 
 
-    if (touchMove.movingDirection === 'down') {
-      sheetRef.current.style.setProperty('transform', `translateY(${maxTransY}px)`);
+    if (isContentAreaTouched == false){
 
-      dirButtonRef.current.style.setProperty('transform', `rotate(0turn)`);
-      setBottomSheetOpen(false);
+      if (touchMove.movingDirection === 'down') {
+        sheetRef.current.style.setProperty('transform', `translateY(${maxTransY}px)`);
+
+        dirButtonRef.current.style.setProperty('transform', `rotate(0turn)`);
+        setBottomSheetOpen(false);
+      }
+
+      if (touchMove.movingDirection === 'up') {
+        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+        dirButtonRef.current.style.setProperty('transform', `rotate(0.5turn)`);
+        setBottomSheetOpen(true);
+      }
     }
+    
 
-    if (touchMove.movingDirection === 'up') {
-      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
-      dirButtonRef.current.style.setProperty('transform', `rotate(0.5turn)`);
-      setBottomSheetOpen(true);
-    }
-
-
-    console.log(touchStart,touchMove);
     //초기화
 
     setTouchStart(prevState => ({
@@ -170,16 +146,52 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
 
   },[touchMove,touchStart,sheetRef]);
 
+  //content ref
+  const handleContentTouchStart = useCallback((e) =>{
+    setIsContentAreaTouched(true);
+    contentRef.current.style.overflow = "scroll";
+    contentRef.current.focus();
 
+
+  },[isContentAreaTouched]);
+
+  const handleContentTouchMove = useCallback((e) =>{
+
+    // console.log(touchMove,  contentRef.current.scrollTop);
+    // release content scroll when it reaches top in the middle of movement
+    if (touchMove.movingDirection === "down" && contentRef.current.scrollTop <= 0){
+      contentRef.current.style.overflow = "hidden";
+      setIsContentAreaTouched(false);
+    }
+
+  },[isContentAreaTouched,touchMove]);
+
+  const handleContentTouchEnd = useCallback((e) =>{
+    setIsContentAreaTouched(false);
+
+  },[isContentAreaTouched]);
+
+  // Register ContentRef Handler
   useEffect(() =>{
+    if(contentRef && contentRef.current){
+      contentRef.current.addEventListener('touchstart', handleContentTouchStart);
+      contentRef.current.addEventListener('touchmove', handleContentTouchMove);
 
-    console.log(bottomSheetOpen);
+      contentRef.current.addEventListener('touchend', handleContentTouchEnd);
+  }
+  
+  return () => {
+    contentRef.current.removeEventListener('touchstart', handleContentTouchStart);
+    contentRef.current.removeEventListener('touchmove', handleContentTouchMove);
+    contentRef.current.removeEventListener('touchend', handleContentTouchEnd);
+  }
 
-  },[bottomSheetOpen]);
+
+  });
 
 
 
-  // Touch Event 핸들러들을 등록한다. 
+  // Register Sheet Ref Handler 
   useEffect(() => {
 
     if(sheetRef && sheetRef.current){
@@ -196,5 +208,5 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
     }
   })
 
-  return { sheetRef };
+  return { sheetRef, contentRef };
 }

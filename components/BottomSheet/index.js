@@ -3,6 +3,7 @@ import styled, { keyframes, css } from 'styled-components';
 import BottomSheetHeader from './BottomSheetHeader';
 import { useBottomSheet } from './useBottomSheet';
 import { BOTTOM_SHEET_DBOTTOM_GAP, BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DTOP_GAP} from 'configs/constants';
+import BottomSheetContent from './BottomSheetContent';
 
 const Wrapper = styled.div`
     display: flex;
@@ -20,7 +21,7 @@ const Wrapper = styled.div`
     background-color: black;
 
     height: ${BOTTOM_SHEET_HEIGHT}%;
-    transition: 1s;
+    transition: transform 150ms ease-out;;
 `;
 
 
@@ -28,14 +29,15 @@ const Wrapper = styled.div`
 const BottomSheet = () => {
 
     const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-    const dirButtonRef = useRef();
+    const dirButtonRef = useRef(); //header direction button reference
 
-    const {sheetRef} = useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen);
+    const {sheetRef, contentRef} = useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen);
 
     return (
         <>
             <Wrapper ref={sheetRef}>
                 <BottomSheetHeader sheetRef={sheetRef} bottomSheetOpen={bottomSheetOpen} setBottomSheetOpen={setBottomSheetOpen} dirButtonRef={dirButtonRef} />
+                <BottomSheetContent contetRef={contentRef}/>
             </Wrapper>
         </>
     );
