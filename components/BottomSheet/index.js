@@ -3,7 +3,8 @@ import styled, { keyframes, css } from 'styled-components';
 import BottomSheetHeader from './BottomSheetHeader';
 import { useBottomSheet } from './useBottomSheet';
 import { BOTTOM_SHEET_DBOTTOM_GAP, BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DTOP_GAP} from 'configs/constants';
-import BottomSheetContent from './BottomSheetContent';
+import BottomSheetContent from './BottomSheetContents/BottomSheetContent';
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -30,7 +31,10 @@ const Wrapper = styled.div`
 
 const BottomSheet = () => {
 
+    // redux
     const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+
+
     const dirButtonRef = useRef(); //header direction button reference
 
     const {sheetRef, contentRef} = useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen);

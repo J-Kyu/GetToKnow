@@ -1,10 +1,14 @@
-import React, {useCallback, useState, useRef} from 'react';
+import React, {useCallback, useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import { useBottomSheet } from './useBottomSheet';
 import {Col, Row} from 'antd';
 import {UpOutlined} from '@ant-design/icons';
-import {BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants';
+import {BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DBOTTOM_GAP,LOGIN_TRANSLATE_Y,ROOM_SELECT_TRANSLATE_Y} from 'configs/constants';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY} from 'store/modules/bottomSheetState';
+
 
 const Wrapper = styled.div`
   min-height: ${BOTTOM_SHEET_DBOTTOM_GAP}vh;
@@ -35,14 +39,49 @@ const HCol = styled(Col)`
 
 const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirButtonRef }) => {
 
+  //redux
+  const userInfo =  useSelector(({userInfo}) => userInfo);
+  const bottomSheetState = useSelector(({bottomSheetState}) => bottomSheetState);
+
   const downButtonRef = useRef();
 
-  const handleSheetHeader = useCallback((e) => {
+  const maxTransY = 0
+  const [minTransY, setMinTransY] = useState(0);
+  const [headerTitle, setHeaderTitle] = useState("로그인을 해주세요");
 
-    const maxTransY = 0
-    const minTransY = -window.innerHeight*(BOTTOM_SHEET_HEIGHT-BOTTOM_SHEET_DBOTTOM_GAP)/100;
 
-    
+  // init: set login height
+  useEffect(() =>{ 
+    setMinTransY(-window.innerHeight*(LOGIN_TRANSLATE_Y)/100);
+  },[]);
+
+  //set roomSelect
+  useEffect(() => {
+
+    if(bottomSheetState.sheetState == BOTTOM_SHEET_LOGIN){
+      //set login height on bottom sheet
+      setMinTransY(-window.innerHeight*(LOGIN_TRANSLATE_Y)/100);
+    }
+    else if(bottomSheetState.sheetState == BOTTOM_SHEET_ROOM_LOBBY){
+      //set roomSelect hegiht on Bottom Sheet Height 
+      setMinTransY(-window.innerHeight*(ROOM_SELECT_TRANSLATE_Y)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      
+      //Update Header Title
+      const title = userInfo.me.nickname + "님, 반갑습니다.";
+      setHeaderTitle(title);
+    }
+    else{
+      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_HEIGHT - BOTTOM_SHEET_DBOTTOM_GAP)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+    }
+
+  },[bottomSheetState,minTransY]);
+
+
+  const handleSheetHeader = useCallback((e) => {   
+
     //decrease bottom sheet
     if (bottomSheetOpen == true){
       dirButtonRef.current.style.setProperty('transform', `rotate(0turn)`);
@@ -56,14 +95,14 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
 
     setBottomSheetOpen(!bottomSheetOpen);
 
-  },[bottomSheetOpen]);
+  },[bottomSheetOpen,minTransY]);
 
     return (
         <>
             <Wrapper>
               <Row style={{height: "100%"}}>
                 <HCol span={16} style={{justifyContent: "left", paddingLeft: "10vw"}}>
-                  <div style={{fontSize: "1.2rem" , color: "white"}}>로그인을 해주세요</div>
+                  <div style={{fontSize: "1.2rem" , color: "white"}}>{headerTitle}</div>
                 </HCol>
                 <HCol span={8} >
                   <UpOutlined ref={dirButtonRef} onClick={handleSheetHeader} style={{color: "white", fontSize: '250%'}} />
