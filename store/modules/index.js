@@ -3,6 +3,7 @@ import { HYDRATE } from "next-redux-wrapper";
 
 import userInfo from './userInfo';
 import bottomSheetState from "./bottomSheetState";
+import publicQuestions from "./publicQuestions";
 
 
 const reducer = (state, action) => {
@@ -15,6 +16,7 @@ const reducer = (state, action) => {
     return combineReducers({
         userInfo,
         bottomSheetState,
+        publicQuestions,
 
         // 여기에 추가
     })(state, action);

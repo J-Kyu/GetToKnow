@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useBottomSheet } from './useBottomSheet';
 import {Col, Row} from 'antd';
 import {UpOutlined} from '@ant-design/icons';
-import {BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DBOTTOM_GAP,LOGIN_TRANSLATE_Y,ROOM_SELECT_TRANSLATE_Y} from 'configs/constants';
+import {BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DBOTTOM_GAP,LOGIN_TRANSLATE_Y,ROOM_SELECT_TRANSLATE_Y, TEST_VALUE,BOTTOM_SHEET_MAX_HEIGHT} from 'configs/constants';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY} from 'store/modules/bottomSheetState';
+import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY, BOTTOM_SHEET_GENERATE_ROOM, BOTTOM_SHEET_TEST, BOTTOM_SHEET_ROOM_QUESTIONS} from 'store/modules/bottomSheetState';
 
 
 const Wrapper = styled.div`
@@ -58,6 +58,58 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
   //set roomSelect
   useEffect(() => {
 
+    switch (bottomSheetState.sheetState){
+      case BOTTOM_SHEET_LOGIN: {
+        setMinTransY(-window.innerHeight*(LOGIN_TRANSLATE_Y)/100);
+        break;
+      }
+      case BOTTOM_SHEET_ROOM_LOBBY: {
+        //set roomSelect hegiht on Bottom Sheet Height 
+        setMinTransY(-window.innerHeight*(ROOM_SELECT_TRANSLATE_Y)/100);
+        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+        
+        //Update Header Title
+        const title = userInfo.me.nickname + "님, 반갑습니다.";
+        setHeaderTitle(title);
+        break;
+          
+      }
+      case BOTTOM_SHEET_GENERATE_ROOM: {
+        //set roomSelect hegiht on Bottom Sheet Height 
+        setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
+        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      }      
+      case BOTTOM_SHEET_ROOM_QUESTIONS: {
+        //set roomSelect hegiht on Bottom Sheet Height 
+        setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
+        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      }
+      case BOTTOM_SHEET_TEST: {
+        //set roomSelect hegiht on Bottom Sheet Height 
+        setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
+        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+        //Update Header Title
+        const title = "THIS IS TEST";
+        setHeaderTitle(title);
+
+      }
+      default: {
+        //set roomSelect hegiht on Bottom Sheet Height 
+        setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
+        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+        //Update Header Title
+        const title = "NONE";
+        setHeaderTitle(title);
+      };
+  }
+
+
+    /*
     if(bottomSheetState.sheetState == BOTTOM_SHEET_LOGIN){
       //set login height on bottom sheet
       setMinTransY(-window.innerHeight*(LOGIN_TRANSLATE_Y)/100);
@@ -72,10 +124,21 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
       const title = userInfo.me.nickname + "님, 반갑습니다.";
       setHeaderTitle(title);
     }
+    //BOTTOM_SHEET_TEST
+    else if(bottomSheetState.sheetState == BOTTOM_SHEET_TEST){
+      //set roomSelect hegiht on Bottom Sheet Height 
+      setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      //Update Header Title
+      const title = "THIS IS TEST";
+      setHeaderTitle(title);
+    }
     else{
       setMinTransY(-window.innerHeight*(BOTTOM_SHEET_HEIGHT - BOTTOM_SHEET_DBOTTOM_GAP)/100);
       sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
     }
+    */
 
   },[bottomSheetState,minTransY]);
 

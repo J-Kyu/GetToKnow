@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import BottomSheetHeader from './BottomSheetHeader';
-import { useBottomSheet } from './useBottomSheet';
+import BottomSheetHeader from './BottomSheetHeader/BottomSheetHeader';
+import { useBottomSheet } from './BottomSheetHeader/useBottomSheet';
 import { BOTTOM_SHEET_DBOTTOM_GAP, BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DTOP_GAP} from 'configs/constants';
 import BottomSheetContent from './BottomSheetContents/BottomSheetContent';
 
