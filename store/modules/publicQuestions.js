@@ -33,7 +33,7 @@ const userSlice = createSlice({
     reducers: {
         PUBLIC_QUESTIONS_REQUEST: (state) => {PublicQuestionsRequest(state)},
         PUBLIC_QUESTIONS_SUCCESS: (state, action) => {PublicQuestionsSuccess(state, action)},
-        PUBLIC_QUESTIONS_FAILURE: (state) => {PublicQuestionsFailure(state)},
+        PUBLIC_QUESTIONS_FAILURE: (state,action) => {PublicQuestionsFailure(state, action)},
 
        
     },

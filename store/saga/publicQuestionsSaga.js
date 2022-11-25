@@ -31,7 +31,7 @@ function* watchPublicQuestionsRequest() {
 
 
 
-export default function* userSaga() {
+export default function* publicQuestionsSaga() {
     yield all([
       fork(watchPublicQuestionsRequest),
     ]);

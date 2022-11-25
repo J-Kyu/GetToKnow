@@ -36,6 +36,8 @@ const BottomSheetContent = ({contetRef}) => {
     const bottomSheetState = useSelector(({bottomSheetState}) => bottomSheetState);
     const dispatch = useDispatch();
 
+    //joined user
+
     useEffect(() =>{
         
         // if(userInfo.me == null){
