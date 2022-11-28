@@ -18,7 +18,6 @@ function* PublicQuestionsRequest(action) {
   try {
     console.log('saga request public question');
 
-    console.log("WOIWOW~~!!!");
     // const result = yield call(logInAPI);
     yield delay(2000);
 

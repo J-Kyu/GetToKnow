@@ -5,7 +5,7 @@ import {BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import RoomButton from 'components/BottomSheet/BottomSheetContents/RoomButton';
 
-import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY,BOTTOM_SHEET_GENERATE_ROOM,BOTTOM_SHEET_TEST, BOTTOM_SHEET_LOADING,BOTTOM_SHEET_ROOM_QUESTIONS,BOTTOM_SHEET_ROOM_TICKET} from 'store/modules/bottomSheetState';
+import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY,BOTTOM_SHEET_GENERATE_ROOM,BOTTOM_SHEET_TEST, BOTTOM_SHEET_LOADING,BOTTOM_SHEET_ROOM_QUESTIONS,BOTTOM_SHEET_ROOM_TICKET,BOTTOM_SHEET_ENTER_ROOM,BOTTOM_SHEET_ANSWER_QUESTIONS} from 'store/modules/bottomSheetState';
 
 import GenerateRoomContent from 'components/BottomSheet/BottomSheetContents/GenerateRoomContent';
 
@@ -15,6 +15,9 @@ import BottomSheetRoomQuestions from 'components/BottomSheet/BottomSheetContents
 
 import BottomSheetRoomTicket from './BottomSheetRoomTicket';
 
+import BottomSheetEntertRoom from './BottomSheetEntertRoom';
+
+import BottomSheetAnswerQuestions from './BottomSheetAnswerQuestions';
 
 const Wrapper = styled.div`
     position: relative;
@@ -23,10 +26,12 @@ const Wrapper = styled.div`
 
 
     color: white;
-    background-color: gray;
+    // background-color: gray;
     overflow-x: hidden; 
 
     overflow-y: auto; 
+
+    height: 100%;
 
 `;
 
@@ -40,14 +45,14 @@ const BottomSheetContent = ({contetRef}) => {
     //joined user
 
     useEffect(() =>{
-        
+
+
         if(userInfo.me == null){
             dispatch({type: BOTTOM_SHEET_LOGIN});
         }
         else{
             dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
         }
-
 
     }, [userInfo]);
 
@@ -88,6 +93,27 @@ const BottomSheetContent = ({contetRef}) => {
             );
             
         }
+        case BOTTOM_SHEET_ENTER_ROOM: {
+            return (
+                <>
+                    <Wrapper ref = {contetRef}>
+                        <BottomSheetEntertRoom/>
+                    </Wrapper>
+                </>
+            );
+            
+        }
+        case BOTTOM_SHEET_ANSWER_QUESTIONS: {
+            return (
+                <>
+                    <Wrapper ref = {contetRef}>
+                        <BottomSheetAnswerQuestions/>
+                    </Wrapper>
+                </>
+            );
+            
+        }
+
         case BOTTOM_SHEET_GENERATE_ROOM: {
             return(
                 <>

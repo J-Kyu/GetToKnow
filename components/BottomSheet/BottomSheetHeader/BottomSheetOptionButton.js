@@ -7,6 +7,7 @@ import {
     BOTTOM_SHEET_ROOM_LOBBY, 
     BOTTOM_SHEET_GENERATE_ROOM, 
     BOTTOM_SHEET_TEST, 
+    BOTTOM_SHEET_ANSWER_QUESTIONS,
     BOTTOM_SHEET_ROOM_QUESTIONS, 
     BOTTOM_SHEET_ROOM_TICKET,
     BOTTOM_SHEET_ENTER_ROOM,
@@ -73,9 +74,19 @@ const BottomSheetOptionButton = () => {
                 setOptionBtnVisibility(true);
                 break;
             }
+            case BOTTOM_SHEET_ANSWER_QUESTIONS:{
+                setPrevSheetState(BOTTOM_SHEET_ENTER_ROOM);
+                setOptionBtnVisibility(true);
+                break;
+            }
             case BOTTOM_SHEET_ROOM_TICKET:{
                 setPrevSheetState(BOTTOM_SHEET_ROOM_LOBBY);
                 setOptionBtnVisibility(true);
+                break;
+            }
+            default:{
+                setPrevSheetState("NONE");
+                setOptionBtnVisibility(false);
                 break;
             }
 

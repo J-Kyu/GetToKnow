@@ -2,12 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 
 //sheet state
 export const  BOTTOM_SHEET_LOGIN = 'bottomSheetState/BOTTOM_SHEET_LOGIN';
+
 export const  BOTTOM_SHEET_ROOM_LOBBY = 'bottomSheetState/BOTTOM_SHEET_ROOM_LOBBY';
+
 export const  BOTTOM_SHEET_GENERATE_ROOM = 'bottomSheetState/BOTTOM_SHEET_GENERATE_ROOM';
+
 export const  BOTTOM_SHEET_ENTER_ROOM = 'bottomSheetState/BOTTOM_SHEET_ENTER_ROOM';
+
 export const  BOTTOM_SHEET_LOADING = 'bottomSheetState/BOTTOM_SHEET_LOADING';
+
 export const  BOTTOM_SHEET_ROOM_QUESTIONS = 'bottomSheetState/BOTTOM_SHEET_ROOM_QUESTIONS';
+
 export const  BOTTOM_SHEET_ROOM_TICKET = 'bottomSheetState/BOTTOM_SHEET_ROOM_TICKET';
+
+export const  BOTTOM_SHEET_ANSWER_QUESTIONS = 'bottomSheetState/BOTTOM_SHEET_ANSWER_QUESTIONS';
+
 
 //sheet On or Off
 export const  BOTTOM_SHEET_ON = 'bottomSheetState/BOTTOM_SHEET_ON';
@@ -38,6 +47,8 @@ const userSlice = createSlice({
         BOTTOM_SHEET_LOADING: (state) => {BottomSheetLoading(state)},
         BOTTOM_SHEET_ROOM_QUESTIONS: (state) => {BottomSheetRoomQuestions(state)},
         BOTTOM_SHEET_ROOM_TICKET: (state) => {BottomSheetRoomTicket(state)},
+        BOTTOM_SHEET_ANSWER_QUESTIONS: (state) => {BottomSheetAnswerQuestions(state)},
+
 
         //sheet open 
         BOTTOM_SHEET_ON: (state) => {BottomSheetOn(state)},
@@ -84,6 +95,12 @@ function BottomSheetRoomTicket(state){
     state.sheetState = BOTTOM_SHEET_ROOM_TICKET;
 }
 
+//BOTTOM_SHEET_ANSWER_QUESTIONS
+function BottomSheetAnswerQuestions(state){
+    state.sheetState = BOTTOM_SHEET_ANSWER_QUESTIONS;
+}
+
+
 //BOTTOM_SHEET_ON
 function BottomSheetOn(state){
     state.sheetOpen = true;
@@ -93,7 +110,6 @@ function BottomSheetOn(state){
 function BottomSheetOff(state){
     state.sheetOpen = false;
 }
-
 
 //BOTTOM_SHEET_TEST
 function BottomSheetTest(state){

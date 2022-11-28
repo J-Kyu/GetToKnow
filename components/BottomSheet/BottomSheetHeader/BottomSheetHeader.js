@@ -14,6 +14,8 @@ import {
   BOTTOM_SHEET_TEST, 
   BOTTOM_SHEET_ROOM_QUESTIONS, 
   BOTTOM_SHEET_ROOM_TICKET,
+  BOTTOM_SHEET_ENTER_ROOM,
+  BOTTOM_SHEET_ANSWER_QUESTIONS,
   BOTTOM_SHEET_ON,
   BOTTOM_SHEET_OFF
 } from 'store/modules/bottomSheetState';
@@ -126,7 +128,7 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
       }
     case BOTTOM_SHEET_ROOM_TICKET: {
       //set roomSelect hegiht on Bottom Sheet Height 
-      setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
+      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
       sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
 
       //Update Header Title
@@ -134,16 +136,35 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
 
       break;
     }
+    case BOTTOM_SHEET_ENTER_ROOM: {
+      //set roomSelect hegiht on Bottom Sheet Height 
+      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
 
-      default: {
-        //set roomSelect hegiht on Bottom Sheet Height 
-        setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
-        sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+      //Update Header Title
+      setHeaderTitle("방 접속");
 
-        //Update Header Title
-        const title = "NONE";
-        setHeaderTitle(title);
-      };
+      break;
+    }
+    case BOTTOM_SHEET_ANSWER_QUESTIONS: {
+      //set roomSelect hegiht on Bottom Sheet Height 
+      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      //Update Header Title
+      setHeaderTitle("답 하기");
+
+      break;
+    }
+    default: {
+      //set roomSelect hegiht on Bottom Sheet Height 
+      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      //Update Header Title
+      const title = "NONE";
+      setHeaderTitle(title);
+    };
   }
 
 
