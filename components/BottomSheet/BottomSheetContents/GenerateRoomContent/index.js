@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import {Col, Row, Select, Rate,Slider, TimePicker, DatePicker, Radio} from 'antd';
 import dayjs from 'dayjs';
-
+import { useDispatch } from 'react-redux';
+import {BOTTOM_SHEET_ROOM_QUESTIONS} from "store/modules/bottomSheetState";
 
 const Wrapper = styled.div`
     color: white;
@@ -67,6 +68,15 @@ const GenerateRoomContent = () => {
     //date format
     const format = 'HH:mm';
 
+    //dispatch
+    const dispatch = useDispatch();
+
+    //Room Submit Handler
+    const GenerateRoomHandler = useCallback(() => {
+        dispatch({type: BOTTOM_SHEET_ROOM_QUESTIONS})
+    });
+
+
     return (
         <>
            
@@ -125,14 +135,14 @@ const GenerateRoomContent = () => {
                             <DatePicker/>
                         </Col>
                         <Col span={8}>
-                            <TimePicker defaultValue={dayjs('12:08', format)} format={format} />
+                            <TimePicker format={format} />
                         </Col>
                     </Row>
                 </ContentsWrapper>
 
                 {/* Buttons */}
                 <SubmitWrapper>
-                    <Radio.Button value="default" size="large">방 만들기</Radio.Button>
+                    <Radio.Button onClick={GenerateRoomHandler} value="default" size="large">방 만들기</Radio.Button>
                 </SubmitWrapper>
             </Wrapper>
 

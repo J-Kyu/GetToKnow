@@ -15,6 +15,7 @@ import BottomSheetRoomQuestions from 'components/BottomSheet/BottomSheetContents
 
 import BottomSheetRoomTicket from './BottomSheetRoomTicket';
 
+
 const Wrapper = styled.div`
     position: relative;
     margin-left: 5vw;
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
 
 
     color: white;
-    // background-color: gray;
+    background-color: gray;
     overflow-x: hidden; 
 
     overflow-y: auto; 
@@ -40,15 +41,19 @@ const BottomSheetContent = ({contetRef}) => {
 
     useEffect(() =>{
         
-        // if(userInfo.me == null){
-        //     dispatch({type: BOTTOM_SHEET_LOGIN});
-        // }
-        // else{
-        //     dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
-        // }
+        if(userInfo.me == null){
+            dispatch({type: BOTTOM_SHEET_LOGIN});
+        }
+        else{
+            dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
+        }
 
 
     }, [userInfo]);
+
+
+    //controll bottom sheet
+
 
     console.log(bottomSheetState,BOTTOM_SHEET_GENERATE_ROOM);
 
@@ -63,6 +68,15 @@ const BottomSheetContent = ({contetRef}) => {
                 </>
             );
 
+        }
+        case BOTTOM_SHEET_LOADING:{
+            return (
+                <>
+                    <Wrapper ref = {contetRef}>
+                        <BottomSheetLoading/>
+                    </Wrapper>
+                </>
+            );
         }
         case BOTTOM_SHEET_ROOM_LOBBY: {
             return (
@@ -79,15 +93,6 @@ const BottomSheetContent = ({contetRef}) => {
                 <>
                     <Wrapper ref = {contetRef}>
                         <GenerateRoomContent/>
-                    </Wrapper>
-                </>
-            );
-        }
-        case BOTTOM_SHEET_LOADING: {
-            return(
-                <>
-                    <Wrapper ref = {contetRef}>
-                        <BottomSheetLoading/>
                     </Wrapper>
                 </>
             );

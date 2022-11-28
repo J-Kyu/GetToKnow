@@ -42,7 +42,7 @@ const BottomSheet = () => {
     return (
         <>
             <Wrapper ref={sheetRef}>
-                <BottomSheetHeader sheetRef={sheetRef} bottomSheetOpen={bottomSheetOpen} setBottomSheetOpen={setBottomSheetOpen} dirButtonRef={dirButtonRef} />
+                <BottomSheetHeader sheetRef={sheetRef} bottomSheetOpen={bottomSheetOpen} dirButtonRef={dirButtonRef} />
                 <BottomSheetContent contetRef={contentRef}/>
             </Wrapper>
         </>

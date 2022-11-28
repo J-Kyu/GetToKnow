@@ -6,12 +6,23 @@ import {
     PUBLIC_QUESTIONS_FAILURE
 } from '../modules/publicQuestions';
 
+import {
+  BOTTOM_SHEET_LOADING
+} from '../modules/bottomSheetState';
+
+
+
+
 
 function* PublicQuestionsRequest(action) {
   try {
     console.log('saga request public question');
+
+    console.log("WOIWOW~~!!!");
     // const result = yield call(logInAPI);
-    yield delay(1000);
+    yield delay(2000);
+
+
     yield put({
       type: PUBLIC_QUESTIONS_SUCCESS,
       data: action.data,

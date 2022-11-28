@@ -7,14 +7,22 @@ import {
     ROOM_INFO_REQUEST
 } from 'store/modules/roomInfo';
 
+import BottomSheetLoading from '../BottomSheetLoading';
 
 
 
 const Wrapper = styled.div`
     color: white;
-
-
 `;
+
+const RoomCodeWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1vh;
+    
+`;
+
 
 const QRWrapper = styled.div`
 display: flex;
@@ -49,6 +57,7 @@ const InfoWrapper = styled.div`
     display: flex;
     font-size: 1.2rem;
     flex-direction: row;
+    align-items: center;
 `;
 
 const WarningWrapper = styled.div`
@@ -102,77 +111,87 @@ const BottomSheetRoomTicket = () => {
 
     },[roomInfo.info]);
 
+    //loading
     if (roomInfo.info == null){
         return(
         <>
-            <div>NONE</div>
+            <BottomSheetLoading/>
         </>
         );
     }
+    //Roo Ticket
     else{
+        return (
+                    <>
+                        <Wrapper>
+                            {/* Room Code  */}
+                            <RoomCodeWrapper>
+                                <div style={{fontSize: "1rem"}}>Room Code</div>
+                                <div style={{fontSize: "1.5rem"}}>#{roomInfo.info.roomCode}</div>
+                            </RoomCodeWrapper>
 
-    return (
-                <>
-                    <Wrapper>
-                        {/* QR Code */}
-                        <QRWrapper>
-                            <Canvas text={'https://google.com'}
-                                options={{
-                                    level: 'm',
-                                    margin: 2,
-                                    scale: 4,
-                                    width: 200,
-                                    color: {
-                                        dark: '#010599FF',
-                                        light: '#FFBF60FF',
-                                    },
-                                }}
-                            />
-                        </QRWrapper>
+                            {/* QR Code */}
+                            <QRWrapper>
+                                <Canvas text={'https://google.com'}
+                                    options={{
+                                        level: 'm',
+                                        margin: 2,
+                                        scale: 4,
+                                        width: 200,
+                                        color: {
+                                            dark: '#010599FF',
+                                            light: '#FFBF60FF',
+                                        },
+                                    }}
+                                />
+                            </QRWrapper>
 
-                        {/* INFO */}
-                        <TicketInfoWrapper>
-                            {/* Relase DATE */}
-                            <ReleaseDateWrapper>{roomInfo.info.releaseDate} </ReleaseDateWrapper>
-                            {/* Release TIME */}
-                            <InMeetingTimeWrapper>
-                                <ReleaseTimeWrapper>{roomInfo.info.releaseTime}~ </ReleaseTimeWrapper>
-                                <EndTimeWrapper>{roomInfo.info.endTime}</EndTimeWrapper>
+                            {/* INFO */}
+                            <TicketInfoWrapper>
+                                {/* Relase DATE */}
+                                <ReleaseDateWrapper>{roomInfo.info.releaseDate} </ReleaseDateWrapper>
+                                {/* Release TIME */}
+                                <InMeetingTimeWrapper>
+                                    <ReleaseTimeWrapper>{roomInfo.info.releaseTime}~ </ReleaseTimeWrapper>
+                                    <EndTimeWrapper>{roomInfo.info.endTime}</EndTimeWrapper>
 
-                            </InMeetingTimeWrapper>
+                                </InMeetingTimeWrapper>
 
-                            {/* Room INFO */}
-                            <InfoWrapper>
-                                {/* TYPE */}
-                                {roomInfo.info.roomState}
+                                {/* Room INFO */}
+                                <InfoWrapper>
+                                    {/* TYPE */}
+                                    <div style={{marginRight: "3vw"}}>{roomInfo.info.roomState}</div>
 
-                                {/* ICONS */}
-                                {function (){
-                                    let userState = []
-                                    // joined user
-                                    for(let i = 0; i < joinedUserNum; i++){
-                                        userState.push(<UserOutlined style={{color:"green"}}/>)
-                                    }
-                                    // left user
-                                    for(let i = 0; i < totalUserNum-joinedUserNum; i++){
-                                        userState.push(<UserOutlined style={{color:"gray"}}/>)
-                                    }
+                                    {/* ICONS */}
+                                    {function (){
+                                        let userState = []
+                                        let keyIndex = 0
+                                        // joined user
+                                        for(let i = 0; i < joinedUserNum; i++){
+                                            userState.push(<UserOutlined style={{color:"green"}} key={keyIndex}/>)
+                                            keyIndex += 1;
+                                        }
+                                        // left user
+                                        for(let i = 0; i < totalUserNum-joinedUserNum; i++){
+                                            userState.push(<UserOutlined style={{color:"gray"}}  key={keyIndex}/>)
+                                            keyIndex += 1;
+                                        }
 
-                                    return userState;
-                                }()}
-                            </InfoWrapper>
-                            {/* WARNING */}
-                            <WarningWrapper>
-                                <div>* 주의 사항 1번은 다음과 같습니다.</div>
-                                <div>* 주의 사항 2번은 다음과 같습니다.</div>
-                                <div>* 주의 사항 3번은 다음과 같습니다.</div>
-                            </WarningWrapper>
-                        </TicketInfoWrapper>
+                                        return userState;
+                                    }()}
+                                </InfoWrapper>
+                                {/* WARNING */}
+                                <WarningWrapper>
+                                    <div>* 주의 사항 1번은 다음과 같습니다.</div>
+                                    <div>* 주의 사항 2번은 다음과 같습니다.</div>
+                                    <div>* 주의 사항 3번은 다음과 같습니다.</div>
+                                </WarningWrapper>
+                            </TicketInfoWrapper>
 
 
-                    </Wrapper>
-                </>
-            );
+                        </Wrapper>
+                    </>
+                );
     }
 };
 

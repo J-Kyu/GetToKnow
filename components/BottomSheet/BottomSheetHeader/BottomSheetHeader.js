@@ -2,12 +2,21 @@ import React, {useCallback, useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import { useBottomSheet } from './useBottomSheet';
 import {Col, Row} from 'antd';
-import {UpOutlined} from '@ant-design/icons';
+import {UpOutlined, ArrowLeftOutlined} from '@ant-design/icons';
 import {BOTTOM_SHEET_HEIGHT,BOTTOM_SHEET_DBOTTOM_GAP,LOGIN_TRANSLATE_Y,ROOM_SELECT_TRANSLATE_Y, TEST_VALUE,BOTTOM_SHEET_MAX_HEIGHT} from 'configs/constants';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-
-import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY, BOTTOM_SHEET_GENERATE_ROOM, BOTTOM_SHEET_TEST, BOTTOM_SHEET_ROOM_QUESTIONS} from 'store/modules/bottomSheetState';
+import { useSelector, useDispatch } from 'react-redux';
+import BottomSheetOptionButton from './BottomSheetOptionButton';
+import {
+  BOTTOM_SHEET_LOGIN,
+  BOTTOM_SHEET_ROOM_LOBBY, 
+  BOTTOM_SHEET_GENERATE_ROOM, 
+  BOTTOM_SHEET_TEST, 
+  BOTTOM_SHEET_ROOM_QUESTIONS, 
+  BOTTOM_SHEET_ROOM_TICKET,
+  BOTTOM_SHEET_ON,
+  BOTTOM_SHEET_OFF
+} from 'store/modules/bottomSheetState';
 
 
 const Wrapper = styled.div`
@@ -37,18 +46,23 @@ const HCol = styled(Col)`
 `;
 
 
-const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirButtonRef }) => {
+
+const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
 
   //redux
   const userInfo =  useSelector(({userInfo}) => userInfo);
   const bottomSheetState = useSelector(({bottomSheetState}) => bottomSheetState);
+  const roomInfo = useSelector( ({roomInfo}) => roomInfo);
 
-  const downButtonRef = useRef();
+  //saga
+  const dispatch = useDispatch();
+
+  const optionButtonRef = useRef();
 
   const maxTransY = 0
   const [minTransY, setMinTransY] = useState(0);
   const [headerTitle, setHeaderTitle] = useState("로그인을 해주세요");
-
+  const [showOptionBtn, setShowOptionBtn] = useState(false);
 
   // init: set login height
   useEffect(() =>{ 
@@ -61,6 +75,7 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
     switch (bottomSheetState.sheetState){
       case BOTTOM_SHEET_LOGIN: {
         setMinTransY(-window.innerHeight*(LOGIN_TRANSLATE_Y)/100);
+        setHeaderTitle("로그인 해주세요");
         break;
       }
       case BOTTOM_SHEET_ROOM_LOBBY: {
@@ -80,11 +95,22 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
         setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
         sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
 
+        //setting title
+        setHeaderTitle("방 만드는 중...");
+        break;
+
+
       }      
       case BOTTOM_SHEET_ROOM_QUESTIONS: {
         //set roomSelect hegiht on Bottom Sheet Height 
         setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
         sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+        //setting title
+        setHeaderTitle("방 만드는 중...");
+        break;
+
+
 
       }
       case BOTTOM_SHEET_TEST: {
@@ -95,8 +121,20 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
         //Update Header Title
         const title = "THIS IS TEST";
         setHeaderTitle(title);
+        break;
 
       }
+    case BOTTOM_SHEET_ROOM_TICKET: {
+      //set roomSelect hegiht on Bottom Sheet Height 
+      setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      //Update Header Title
+      setHeaderTitle("Room Ticket");
+
+      break;
+    }
+
       default: {
         //set roomSelect hegiht on Bottom Sheet Height 
         setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
@@ -109,71 +147,72 @@ const BottomSheetHeader = ({sheetRef,bottomSheetOpen, setBottomSheetOpen, dirBut
   }
 
 
-    /*
-    if(bottomSheetState.sheetState == BOTTOM_SHEET_LOGIN){
-      //set login height on bottom sheet
-      setMinTransY(-window.innerHeight*(LOGIN_TRANSLATE_Y)/100);
-    }
-    else if(bottomSheetState.sheetState == BOTTOM_SHEET_ROOM_LOBBY){
-      //set roomSelect hegiht on Bottom Sheet Height 
-      setMinTransY(-window.innerHeight*(ROOM_SELECT_TRANSLATE_Y)/100);
-      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
-
-      
-      //Update Header Title
-      const title = userInfo.me.nickname + "님, 반갑습니다.";
-      setHeaderTitle(title);
-    }
-    //BOTTOM_SHEET_TEST
-    else if(bottomSheetState.sheetState == BOTTOM_SHEET_TEST){
-      //set roomSelect hegiht on Bottom Sheet Height 
-      setMinTransY(-window.innerHeight*(TEST_VALUE)/100);
-      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
-
-      //Update Header Title
-      const title = "THIS IS TEST";
-      setHeaderTitle(title);
-    }
-    else{
-      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_HEIGHT - BOTTOM_SHEET_DBOTTOM_GAP)/100);
-      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
-    }
-    */
-
   },[bottomSheetState,minTransY]);
 
 
-  const handleSheetHeader = useCallback((e) => {   
-
+  // control bottom sheet open controll function
+  useEffect(()=>{
     //decrease bottom sheet
-    if (bottomSheetOpen == true){
+    if (bottomSheetState.sheetOpen == false){
+      //set button direction
       dirButtonRef.current.style.setProperty('transform', `rotate(0turn)`);
+      //set bottom sheet max translate
       sheetRef.current.style.setProperty('transform', `translateY(${maxTransY}px)`);
+
+      //hide option button
+      // optionButtonRef.current.style.setProperty('transform', `scale(0)`); 
+      // optionButtonRef.current.style.setProperty('font-size', `0rem`);
     }
     // increase bottom sheet
     else{
+      //set button direction
       dirButtonRef.current.style.setProperty('transform', `rotate(0.5turn)`);
+      //set bottom sheet max translate
       sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      //open option button
+      // optionButtonRef.current.style.setProperty('transform', `scale(1)`);
+      // optionButtonRef.current.style.setProperty('font-size', `1.5rem`);
+
     }
 
-    setBottomSheetOpen(!bottomSheetOpen);
 
-  },[bottomSheetOpen,minTransY]);
+  },[bottomSheetState.sheetOpen]);
+  
+  //bottom open button handler
+  const handleSheetHeader = useCallback((e) => {   
+     //current sheet is closed
+    if (bottomSheetState.sheetOpen == false){
+      //Open Bottom Sheet
+      dispatch({type: BOTTOM_SHEET_ON});
+    }
+    //current sheet is openned
+    else{
+      //Close Bottom Sheet
+      dispatch({type: BOTTOM_SHEET_OFF});
+    }
+  },[bottomSheetState.sheetOpen]);
 
-    return (
-        <>
-            <Wrapper>
-              <Row style={{height: "100%"}}>
-                <HCol span={16} style={{justifyContent: "left", paddingLeft: "10vw"}}>
-                  <div style={{fontSize: "1.2rem" , color: "white"}}>{headerTitle}</div>
-                </HCol>
-                <HCol span={8} >
-                  <UpOutlined ref={dirButtonRef} onClick={handleSheetHeader} style={{color: "white", fontSize: '250%'}} />
-                </HCol>
-              </Row>
-            </Wrapper>
-        </>
-    );
+  //option button controller
+  useEffect(()=>{
+
+  }, []);
+
+  return (
+      <>
+          <Wrapper>
+            <Row style={{height: "100%"}}>
+              <HCol span={16} style={{justifyContent: "left", paddingLeft: "5vw"}}>
+                <BottomSheetOptionButton/>
+                <div style={{fontSize: "1.2rem" , color: "white"}}>{headerTitle}</div>
+              </HCol>
+              <HCol span={8} >
+                <UpOutlined ref={dirButtonRef} onClick={handleSheetHeader} style={{color: "white", fontSize: '250%'}} />
+              </HCol>
+            </Row>
+          </Wrapper>
+      </>
+  );
 };
 
 
