@@ -2,12 +2,13 @@ import React from 'react';
 import Main from '../components/Main';
 import BottomSheet from '../components/BottomSheet';
 import styled from 'styled-components';
-import {TEST_VALUE,BOTTOM_SHEET_DTOP_GAP} from 'configs/constants';
+import AlertMessage from '@/components/AlertMessage';
 
 const Home = () => {
 
     return (
         <>
+            <AlertMessage/>
             <Main style={{height: "100px",backgroundColor: "red"}}/>
             <BottomSheet/>
         </>

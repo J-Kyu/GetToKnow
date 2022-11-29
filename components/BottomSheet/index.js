@@ -24,7 +24,8 @@ const Wrapper = styled.div`
     background-color: black;
 
     height: ${BOTTOM_SHEET_HEIGHT}%;
-    transition: transform 1s ease-out;;
+    transition: transform 1s ease-out;
+
 `;
 
 

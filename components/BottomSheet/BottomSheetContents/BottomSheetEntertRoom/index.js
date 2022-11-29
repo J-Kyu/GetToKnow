@@ -7,7 +7,6 @@ import {BOTTOM_SHEET_ANSWER_QUESTIONS} from 'store/modules/bottomSheetState';
 import BottomSheetLoading from '../BottomSheetLoading';
 
 
-
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;

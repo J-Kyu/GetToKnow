@@ -7,6 +7,16 @@ import {
     ENTER_ROOM_RESET
 } from '../modules/enterRoom';
 
+import {
+  ALERT_SUCCESS,
+  ALERT_INFO,
+  ALERT_WARNING,
+  ALERT_ERROR,
+  ALERT_SHIFT
+} from "store/modules/alertState"
+
+
+
 
 function* EnterRoomRequest(action) {
   try {
@@ -27,9 +37,16 @@ function* EnterRoomRequest(action) {
 
     }
     else{
+
       yield put({
         type: ENTER_ROOM_SUCCESS,
         isValidCode: false
+      });
+
+      yield put({
+        type: ALERT_ERROR,
+        message: "Wrong Room Code: "+action.roomCode,
+        description: "Room code "+action.roomCode+ " does not exist. Please check again."
       });
 
     }

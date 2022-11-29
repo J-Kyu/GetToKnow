@@ -6,6 +6,7 @@ import bottomSheetState from "./bottomSheetState";
 import publicQuestions from "./publicQuestions";
 import roomInfo from "./roomInfo";
 import enterRoom from "./enterRoom";
+import alertState from "./alertState";
 
 
 const reducer = (state, action) => {
@@ -21,6 +22,7 @@ const reducer = (state, action) => {
         publicQuestions,
         roomInfo,
         enterRoom,
+        alertState
 
         // 여기에 추가
     })(state, action);
