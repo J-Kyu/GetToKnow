@@ -172,6 +172,7 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
   },[isContentAreaTouched]);
 
   
+
   /*
   // Register ContentRef Handler
   useEffect(() =>{
@@ -210,5 +211,6 @@ export function useBottomSheet(dirButtonRef, bottomSheetOpen,setBottomSheetOpen)
     }
   })
   */
+  
   return { sheetRef, contentRef };
 }

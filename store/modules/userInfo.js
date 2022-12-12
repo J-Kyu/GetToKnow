@@ -59,6 +59,8 @@ const userSlice = createSlice({
         LOG_OUT_SUCCESS: (state, action) => {LogOutSuccess(state)},
         LOG_OUT_FAILURE: (state, action) => {LogOutFailure(state,action)},
 
+
+
     },
 });
 
