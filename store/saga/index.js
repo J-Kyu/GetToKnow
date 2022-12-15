@@ -11,7 +11,7 @@ import axios from 'axios';
 import { backurl } from '@/configs/backendConfig';
 
 axios.defaults.baseURL = backurl;
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 //saga 함수 등록
 export default function* rootSaga() {

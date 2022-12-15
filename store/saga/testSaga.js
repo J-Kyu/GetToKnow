@@ -9,16 +9,17 @@ import {
 } from '../modules/testState';
 
 
+
 function saveCookie(){
-  return axios.get(`/cookie/save`);
+  return axios.get(`/cookie/save`, {withCredentials: true});
 }
 
 function loadCookie(){
-  return axios.get(`/cookie/load`);
+  return axios.get(`/cookie/load`, {withCredentials: true});
 }
 
 function removeCookie(){
-    return axios.get(`/cookie/remove`);
+    return axios.get(`/cookie/remove`, {withCredentials: true});
   }
   
 

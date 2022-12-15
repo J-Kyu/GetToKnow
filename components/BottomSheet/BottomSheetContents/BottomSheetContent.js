@@ -42,8 +42,7 @@ const BottomSheetContent = ({contetRef}) => {
     const bottomSheetState = useSelector(({bottomSheetState}) => bottomSheetState);
     const dispatch = useDispatch();
 
-    //joined user
-
+    /*
     useEffect(() =>{
 
 
@@ -54,13 +53,9 @@ const BottomSheetContent = ({contetRef}) => {
             dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
         }
 
-    }, [userInfo]);
+    }, [userInfo.me]);
+    */
 
-
-    //controll bottom sheet
-
-
-    console.log(bottomSheetState,BOTTOM_SHEET_GENERATE_ROOM);
 
     //BOTTOM_SHEET_ROOM_LOBBY
     switch (bottomSheetState.sheetState){

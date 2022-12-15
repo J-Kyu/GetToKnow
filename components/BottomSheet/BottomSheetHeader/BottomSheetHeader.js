@@ -216,8 +216,8 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
 
   //option button controller
   useEffect(()=>{
-
-  }, []);
+    // console.log(userInfo.me);
+  }, [userInfo.me]);
 
   return (
       <>

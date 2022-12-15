@@ -60,7 +60,6 @@ const AlertMessage = () => {
     },[alertState.alertWarning]);
 
     useEffect( () => {
-        console.log("ERROR");
 
         if(alertState.alertError !== null){
 
@@ -80,8 +79,6 @@ const AlertMessage = () => {
         setAlertList(alertList.filter((item) => item.id !== id));
     });
 
-
-    console.log(alertList);
 
     return (
         <>

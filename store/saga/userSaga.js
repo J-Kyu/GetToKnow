@@ -2,27 +2,31 @@ import axios from 'axios';
 import { all, delay, fork, put, takeLatest, call } from 'redux-saga/effects';
 
 import {
+
     LOG_IN_SUCCESS,
     LOG_IN_REQUEST,
     LOG_IN_FAILURE,
+
+    LOAD_USER_INFO_REQUEST,
+    LOAD_USER_INFO_SUCCESS,
+    LOAD_USER_INFO_FAILURE,
+
     LOG_OUT_REQUEST,
     LOG_OUT_SUCCESS,
     LOG_OUT_FAILURE,
+
     SIGN_UP_REQUEST,
     SIGN_UP_SUCCESS,
     SIGN_UP_FAILURE,
-    SAVE_COOKIE,
-    LOAD_COOKIE
 } from '../modules/userInfo';
 
 
-function saveCookie(){
-  return axios.get(`/cookie/save`);
-}
+import {
+  BOTTOM_SHEET_LOGIN,
+  BOTTOM_SHEET_ROOM_LOBBY
+} from 'store/modules/bottomSheetState';
 
-function loadCookie(){
-  return axios.get(`/cookie/load`);
-}
+
 
 
 function getUserInfo(userId){
@@ -30,46 +34,93 @@ function getUserInfo(userId){
 }
 
 
-function* saveCookieSaga() {
-  try {
-    console.log('saga Save Cookie');
 
-    //log in
-    const result = yield call(saveCookie);
-    console.log(result);
- 
-  } catch (err) {
-    console.error(err);
-  }
-}
 
-function* loadCookieSaga() {
-  try {
-    console.log('saga Load Cookie');
+function thirdPartyLoginAxios(data){
+  
+  let form = new FormData();
+  form.append('nickname', data.nickname);
+  form.append('uuid',data.uuid);
+  form.append('oAuthType', "KAKAO");
 
-    //log in
-    const result = yield call(loadCookie);
-    console.log(result);
- 
-  } catch (err) {
-    console.error(err);
-  }
+  return axios.post(
+      '/user/logIn',
+      form,
+      {withCredentials: true}
+    )
 }
 
 
+function loadUserInfoAxios(){
+  return axios.get(
+    '/user/load',
+    {withCredentials: true}
+  )
+
+}
+
+
+function* loadUserInfo(){
+
+
+  try {
+
+    const result = yield call(loadUserInfoAxios);
+    //User Info Update
+    yield put({
+      type: LOAD_USER_INFO_SUCCESS,
+      data: result.data,
+    });
+
+    //Room State to Lobby
+    yield put({
+      type: BOTTOM_SHEET_ROOM_LOBBY,
+    });
+
+  } catch (err) {
+
+    console.error(err);
+    yield put({
+      type: LOAD_USER_INFO_FAILURE,
+      error: err.message,
+    });
+
+    //Room State to Login
+    yield put({
+      type: BOTTOM_SHEET_LOGIN,
+    });
+  }
+}
 
 function* logIn(action) {
     try {
-      console.log('saga logIn');
+      let result = null;
+      
+      // Third Party Log In
+      switch(action.data.oauthType){
+        case "KAKAO": {
+          //default log in
+          console.log('saga kakao logIn');
+          result = yield call(thirdPartyLoginAxios, action.data);
+          console.log('-->',result);
+          break
+        };
+        case "GOOGLE": {
 
-      //log in
-      const result = yield call(getUserInfo, 1);
-      console.log(result);
-      // yield delay(1000);
+          break;
+        };
+        default: {
+          //default log in
+          console.log('saga default logIn');
+          throw new Error("Wrong oAuth Type Error: "+action.data.oauthType);
+          break;
+        };
+      }
+      
+
       yield put({
         type: LOG_IN_SUCCESS,
-        data: action.data,
-        userInfo: result,
+        data: result.data
       });
     } catch (err) {
       console.error(err);
@@ -94,9 +145,13 @@ function* logOut(action) {
     console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
-      error: err.response.data,
+      error: err.message,
     });
   }
+}
+
+function* watchLoadUserInfo(){
+  yield takeLatest(LOAD_USER_INFO_REQUEST, loadUserInfo);
 }
 
 function* watchLogIn() {
@@ -107,17 +162,13 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
-function* watchSaveCookie() {
-  yield takeLatest(SAVE_COOKIE, saveCookieSaga);
-}
 
-function* watchLoadCookie() {
-  yield takeLatest(LOAD_COOKIE, loadCookieSaga);
-}
 
 export default function* userSaga() {
     yield all([
       fork(watchLogIn),
       fork(watchLogOut),
+      fork(watchLoadUserInfo),
+
     ]);
   }

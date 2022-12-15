@@ -11,23 +11,44 @@ import testState from "./testState";
 
 
 const reducer = (state, action) => {
-    if (action.type === HYDRATE) {
-        return {
-            ...state,
-            ...action.payload
-        };
-    }
-    return combineReducers({
-        userInfo,
-        bottomSheetState,
-        publicQuestions,
-        roomInfo,
-        enterRoom,
-        alertState,
-        testState
 
-        // 여기에 추가
-    })(state, action);
+    switch(action.type){
+        case HYDRATE: {
+          return action.payload;
+        }
+        default: {
+            const combinedReducer = combineReducers({
+                userInfo,
+                bottomSheetState,
+                publicQuestions,
+                roomInfo,
+                enterRoom,
+                alertState,
+                testState
+        
+                // 여기에 추가
+            });
+            return combinedReducer(state, action);
+        }
+    }
+
+    // if (action.type === HYDRATE) {
+    //     return {
+    //         ...state,
+    //         ...action.payload
+    //     };
+    // }
+    // return combineReducers({
+    //     userInfo,
+    //     bottomSheetState,
+    //     publicQuestions,
+    //     roomInfo,
+    //     enterRoom,
+    //     alertState,
+    //     testState
+
+    //     // 여기에 추가
+    // })(state, action);
 }
 
 export default reducer;

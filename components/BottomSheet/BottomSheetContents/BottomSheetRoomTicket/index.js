@@ -103,7 +103,6 @@ const BottomSheetRoomTicket = () => {
     },[dispatch]);
 
     useEffect(()=>{
-        console.log(roomInfo)
         if (roomInfo.info != null){
             setTotalUserNum(roomInfo.info.userMaxNum);
             setJoinedUserNum(roomInfo.info.joinedTicketNo.length);

@@ -6,13 +6,17 @@ import rootSaga from './saga';
 import reducer from './modules';
 
 
-
-const sagaMiddleware = createSagaMiddleware();
+const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
+    // console.log(action);
+    return next(action);
+  };
 
 const createStore = (context) => {
+    const sagaMiddleware = createSagaMiddleware();
+
     const store =  configureStore({ 
             reducer,
-            middleware: [sagaMiddleware],
+            middleware: [sagaMiddleware/*,loggerMiddleware*/],
             devTools: process.env.NODE_ENV !== 'production',
         });
 
@@ -21,5 +25,6 @@ const createStore = (context) => {
 }
 
 export const wrapper = createWrapper(createStore, {
-    debug: process.env.NODE_ENV !== 'production',
+    /*debug: process.env.NODE_ENV !== 'production',*/
+    debug: false
 });

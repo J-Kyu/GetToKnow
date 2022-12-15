@@ -2,7 +2,7 @@ import React, {useEffect, useCallback} from 'react';
 import {Button} from "antd";
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-
+import KakaoLogin from './KakaoLogin';
 
 const Wrapper = styled.div`
     display: flex;
@@ -17,19 +17,15 @@ const LoginContent = () => {
     const dispatch = useDispatch();
     const userInfo =  useSelector(({userInfo}) => userInfo);
 
-    const testLogIn = useCallback((e) => {
-        dispatch({type: 'userInfo/LOG_IN_REQUEST'});
-    }, [dispatch]);
-    
-
+ 
     return (
         <>
             {
                 userInfo.me !== null
                 ? <div>GOOD</div>
                 :   <Wrapper>
-                        <Button type="primary" onClick={testLogIn} loading={userInfo.logInLoading}>Kakao</Button>
-                        <Button type="primary" onClick={testLogIn} loading={userInfo.logInLoading}>Google</Button>
+                        {/* <Button type="primary" onClick={testLogIn} loading={userInfo.logInLoading}>Kakao</Button> */}
+                        <KakaoLogin/>
                     </Wrapper>
             }
         </>

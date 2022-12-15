@@ -6,6 +6,10 @@ const initialState = {
     logInDone: false,
     logInError: null,
 
+    loadUserInfoLoading: false,
+    loadUserInfoDone: false,
+    loadUserInfoError: null,
+
     logOutLoading: false, // 로그아웃 시도중
     logOutDone: false,
     logOutError: null,
@@ -31,6 +35,11 @@ export const LOG_IN_REQUEST = 'userInfo/LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'userInfo/LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'userInfo/LOG_IN_FAILURE';
 
+export const LOAD_USER_INFO_REQUEST = 'userInfo/LOAD_USER_INFO_REQUEST';
+export const LOAD_USER_INFO_SUCCESS = 'userInfo/LOAD_USER_INFO_SUCCESS';
+export const LOAD_USER_INFO_FAILURE = 'userInfo/LOAD_USER_INFO_FAILURE';
+
+
 export const LOG_OUT_REQUEST = 'userInfo/LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'userInfo/LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'userInfo/LOG_OUT_FAILURE';
@@ -51,14 +60,17 @@ const userSlice = createSlice({
     name: 'userInfo',
     initialState,
     reducers: {
-        LOG_IN_REQUEST: (state, action) => {LogInRequest(state);},
-        LOG_IN_SUCCESS: (state, action) => {LogInSuccess(state, action); console.log("Log In Success")},
+        LOG_IN_REQUEST: (state, action) => {LogInRequest(state,action);},
+        LOG_IN_SUCCESS: (state, action) => {LogInSuccess(state, action);},
         LOG_IN_FAILURE: (state, action) => {LogInFailure(state,action);},
 
         LOG_OUT_REQUEST: (state, action) => {LogOutRequest(state)},
         LOG_OUT_SUCCESS: (state, action) => {LogOutSuccess(state)},
         LOG_OUT_FAILURE: (state, action) => {LogOutFailure(state,action)},
 
+        LOAD_USER_INFO_REQUEST: (state, action) => {LoadUserInfoRequest(state,action);},
+        LOAD_USER_INFO_SUCCESS: (state, action) => {LoadUserInfoSuccess(state,action);},
+        LOAD_USER_INFO_FAILURE: (state, action) => {LoadUserInfoFailure(state,action);},    
 
 
     },
@@ -66,18 +78,34 @@ const userSlice = createSlice({
 
 
 //Log In
-function LogInRequest(state){
+function LogInRequest(state,action){
     state.logInLoading = true;
 }
 
 function LogInSuccess(state, action){
     state.logInLoading = false;
-    state.me = dummyUser(action.data);
+    state.me = action.data.result[0];
 }
 
 function LogInFailure(state, action){
     state.logInLoading = false;
     state.logInError = action.error;
+}
+
+
+//Load User Info 
+function LoadUserInfoRequest(state,action){
+    state.loadUserInfoLoading = true;
+}
+
+function LoadUserInfoSuccess(state, action){
+    state.loadUserInfoLoading = false;
+    state.me = action.data.result[0];
+}
+
+function LoadUserInfoFailure(state, action){
+    state.loadUserInfoLoading = false;
+    state.loadUserInfoError = action.error;
 }
 
 //Log Out

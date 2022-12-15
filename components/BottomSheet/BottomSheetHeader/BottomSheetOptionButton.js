@@ -51,7 +51,6 @@ const BottomSheetOptionButton = () => {
             case BOTTOM_SHEET_LOADING:{
                 setPrevSheetState("NONE");
                 setOptionBtnVisibility(false);
-                console.log("Wow~~!!");
                 break;
             }
             case BOTTOM_SHEET_ROOM_LOBBY:{
