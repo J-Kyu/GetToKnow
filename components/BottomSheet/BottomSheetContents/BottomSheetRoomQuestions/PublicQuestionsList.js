@@ -22,7 +22,7 @@ const QuestionsList = ({questions}) => {
 
     const listRender = [];
     for (let i = 0; i < questions.length; i++){
-        listRender.push(<QuestionWrapper key={i}>Q{i+1}. {questions[i]}</QuestionWrapper>)
+        listRender.push(<QuestionWrapper key={i}>Q{i+1}. {questions[i].question}</QuestionWrapper>)
     }
 
 

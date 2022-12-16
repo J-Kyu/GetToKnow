@@ -28,6 +28,8 @@ const oauth = () => {
         const grant_type = "authorization_code";
         const client_id = "7a1c46fc786b5ec707331c14f8a4f95b";
         const redirect_uri = "http://localhost:3000/oauth";
+        // const redirect_uri = "http://192.168.35.57:3000/oauth";
+
 
         const kakaoURL = "https://kauth.kakao.com/oauth/token?client_id=" + client_id +
         "&redirect_uri=" + redirect_uri + 
@@ -80,13 +82,13 @@ const oauth = () => {
         const code = params.get("code"); // 인가코드 받는 부분
         const grant_type = "authorization_code";
         const client_id = "7a1c46fc786b5ec707331c14f8a4f95b";
-        const redirect_uri = "http://localhost:3000/oauth";
+        const redirect_uri = "http://192.168.35.57:3000/oauth";
 
 
         //인가 코드 받기
         requestToken(code)
         .then((res) => {
-            console.log("requestToken->",res);
+            console.log("->",res);
             RequestUserId(res.data.access_token)
         });
   
@@ -101,7 +103,6 @@ const oauth = () => {
         console.log('-> ',userInfo.me);
         //Check User Info 
         router.push('/');
-
 
     },[userInfo.me]);
         

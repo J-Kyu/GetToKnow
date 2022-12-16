@@ -47,7 +47,7 @@ function thirdPartyLoginAxios(data){
       '/user/logIn',
       form,
       {withCredentials: true}
-    )
+    );
 }
 
 
@@ -117,7 +117,7 @@ function* logIn(action) {
         };
       }
       
-
+      console.log("------->",result);
       yield put({
         type: LOG_IN_SUCCESS,
         data: result.data

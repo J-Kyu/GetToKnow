@@ -1,4 +1,6 @@
-import { all, delay, fork, put, takeLatest } from 'redux-saga/effects';
+import { all, delay, fork, put, takeLatest,call } from 'redux-saga/effects';
+
+import axios from 'axios';
 
 import {
     PUBLIC_QUESTIONS_REQUEST,
@@ -10,7 +12,12 @@ import {
   BOTTOM_SHEET_LOADING
 } from '../modules/bottomSheetState';
 
-
+function getPublicQuestionAxios(roomCode){
+  return axios.get(
+      '/room/'+roomCode+'/getPublicQuestions',
+      {withCredentials: true}
+    );
+}
 
 
 
@@ -18,13 +25,11 @@ function* PublicQuestionsRequest(action) {
   try {
     console.log('saga request public question');
 
-    // const result = yield call(logInAPI);
-    yield delay(2000);
-
+    const result = yield call(getPublicQuestionAxios,action.data);
 
     yield put({
       type: PUBLIC_QUESTIONS_SUCCESS,
-      data: action.data,
+      data: result.data
     });
   } catch (err) {
     console.error(err);

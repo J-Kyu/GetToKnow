@@ -50,8 +50,7 @@ function PublicQuestionsRequest(state){
 function PublicQuestionsSuccess(state, action){
     state.requestLoading = false;
     state.requestnDone = true;
-    state.publicQuestions = null;
-    state.publicQuestions = dummyQuestions(action.data);
+    state.publicQuestions = action.data.result;
 }
 
 

@@ -26,16 +26,20 @@ const BottomSheetRoomQuestions = () => {
     const dispatch = useDispatch();
 
     //init function
+    /*
     useEffect(() => {
         if( publicQuestionsState.publicQuestions == null){
             dispatch({type: PUBLIC_QUESTIONS_REQUEST});
         }
     },[publicQuestionsState.publicQuestions]);
+    */
 
     //generate room handler
     const GenerateRoomHandler = useCallback(() => {
         dispatch({type: BOTTOM_SHEET_ROOM_TICKET});
     },[dispatch]);
+
+    useEffect(() => {console.log(publicQuestionsState.publicQuestions);},[publicQuestionsState.publicQuestions]) ;
 
 
     if (publicQuestionsState.publicQuestions == null){
@@ -52,7 +56,7 @@ const BottomSheetRoomQuestions = () => {
             <>
                 <Wrapper>
                  <>
-                    <QuestionsList questions={publicQuestionsState.publicQuestions.questions} />
+                    <QuestionsList questions={publicQuestionsState.publicQuestions} />
                     <PrivateQuestionsList/>
                     <SubmitWrapper>
                         <Radio.Button onClick={GenerateRoomHandler} value="default" size="large">방 생성</Radio.Button>

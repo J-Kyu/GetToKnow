@@ -4,7 +4,12 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import {Col, Row, Select, Rate,Slider, TimePicker, DatePicker, Radio} from 'antd';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
-import {BOTTOM_SHEET_ROOM_QUESTIONS} from "store/modules/bottomSheetState";
+import {BOTTOM_SHEET_LOADING, BOTTOM_SHEET_ROOM_QUESTIONS} from "store/modules/bottomSheetState";
+
+import {
+    ROOM_GEN_REQUEST
+} from 'store/modules/roomInfo';
+
 
 const Wrapper = styled.div`
     color: white;
@@ -30,14 +35,19 @@ const SubmitWrapper = styled.div`
 const GenerateRoomContent = () => {
 
     const [size, setSize] = useState('middle');
+
+    const [roomType, setRoomType] = useState("TYPE_A");
+    const [maxNum, setMaxNum] = useState(0);
+
+
     //types
-    const options = [];
-    for (let i = 10; i < 36; i++) {
-      options.push({
-        value: i.toString(36) + i,
-        label: i.toString(36) + i,
-      });
-    }
+    const options = [
+        {value:"TYPE_A",label:"TYPE_A"},
+        {value:"TYPE_B",label:"TYPE_B"},
+        {value:"TYPE_C",label:"TYPE_C"},
+        {value:"TYPE_D",label:"TYPE_D"}
+    ];
+   
 
     //number
     const customIcons = {
@@ -74,7 +84,15 @@ const GenerateRoomContent = () => {
     //Room Submit Handler
     const GenerateRoomHandler = useCallback(() => {
         dispatch({type: BOTTOM_SHEET_ROOM_QUESTIONS})
-    });
+
+        dispatch({type: ROOM_GEN_REQUEST, 
+            data: {
+                roomType: roomType,
+                maxNum: maxNum
+            }
+        });
+
+    },[roomType,maxNum]);
 
 
     return (
@@ -96,8 +114,8 @@ const GenerateRoomContent = () => {
                         <Col span={16}>
                             <Select
                                 size={size}
-                                defaultValue="a1"
-                                // onChange={handleChange}
+                                defaultValue="TYPE_A"
+                                onChange={(value)=>{setRoomType(value)}}
                                 style={{
                                 width: 200,
                                 }}
@@ -112,19 +130,23 @@ const GenerateRoomContent = () => {
                             인원
                         </Col>
                         <Col span={16}>
-                            <Rate defaultValue={2} character={({ index }) => index + 1} />
+                            <Rate 
+                                defaultValue={2} 
+                                character={({ index }) => index + 1} 
+                                onChange={(value)=>{setMaxNum(value)}}
+                            />
                         </Col>
                     </Row>
 
                     {/* Deth */}
-                    <Row gutter={[8, 16]}>
+                    {/* <Row gutter={[8, 16]}>
                         <Col span={8}>
                             깊이
                         </Col>
                         <Col span={16}>
                             <Slider marks={marks}min={1} max={10} defaultValue={5} />
                         </Col>
-                    </Row>
+                    </Row> */}
 
                     {/* Date */}
                     <Row gutter={[8, 16]}>
