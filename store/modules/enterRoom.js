@@ -17,7 +17,9 @@ const initialState = {
     requestnDone: false,
     requestError: null,
 
-    requestRoom: false
+    requestRoom: false,
+
+    requestRoomCode: "",
 };
 
 
@@ -28,9 +30,6 @@ const userSlice = createSlice({
         ENTER_ROOM_REQUEST: (state) => {EnterRoomRequest(state)},
         ENTER_ROOM_SUCCESS: (state, action) => {EnterRoomSuccess(state,action)},
         ENTER_ROOM_FAILURE: (state,action) => {EnterRoomFailure(state, action)},
-        ENTER_ROOM_RESET: (state) => {EnterRoomReset(state)},
-
-
        
     },
 });
@@ -51,9 +50,11 @@ function EnterRoomSuccess(state, action){
 
     if (action.isValidCode == true){
         state.requestRoom = true;
+        state.requestRoomCode = action.roomCode;
     }
     else{
         state.requestRoom = false;
+        state.requestRoomCode = "";
     }
 }
 
@@ -63,6 +64,7 @@ function EnterRoomFailure(state, action){
     state.requestLoading = false;
     state.requestnDone = true;
     state.requestError = action.error;
+    state.requestRoomCode = "";
 
     state.requestRoom = false;
 }
@@ -72,7 +74,7 @@ function EnterRoomReset(state){
     state.requestLoading = false;
     state.requestnDone = false;
     state.requestError = null;
-
+    state.requestRoomCode = "";
     state.requestRoom = false;
 }
 

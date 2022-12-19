@@ -3,8 +3,7 @@ import { all, delay, fork, put, takeLatest } from 'redux-saga/effects';
 import {
     ENTER_ROOM_REQUEST,
     ENTER_ROOM_SUCCESS,
-    ENTER_ROOM_FAILURE,
-    ENTER_ROOM_RESET
+    ENTER_ROOM_FAILURE
 } from '../modules/enterRoom';
 
 import {
@@ -14,42 +13,31 @@ import {
   ALERT_ERROR,
   ALERT_SHIFT
 } from "store/modules/alertState"
+import { ROOM_INFO_REQUEST } from '../modules/roomInfo';
 
 
-
+//Request Room Info
+function requestRoomInfoAxios(roomCode){
+  return axios.get(
+      '/room/'+roomCode+'/find',
+      {withCredentials: true}
+    );
+}
 
 function* EnterRoomRequest(action) {
   try {
     console.log('saga request enter room');
-   
 
-    // const result = yield call(logInAPI);
-    yield delay(1500);
+    yield put({
+      type: ROOM_INFO_REQUEST,
+      roomCode: action.roomCode
+    });
 
-    if (action.roomCode == "1234"){
-      yield put({
-        type: ENTER_ROOM_SUCCESS,
-        isValidCode: true
-      });
-
-      //reset data before move onto ANSWER_QUESTIONS_SHEET
-      // yield put({type: ENTER_ROOM_RESET});
-
-    }
-    else{
-
-      yield put({
-        type: ENTER_ROOM_SUCCESS,
-        isValidCode: false
-      });
-
-      yield put({
-        type: ALERT_ERROR,
-        message: "Wrong Room Code: "+action.roomCode,
-        description: "Room code "+action.roomCode+ " does not exist. Please check again."
-      });
-
-    }
+    yield put({
+      type: ENTER_ROOM_SUCCESS,
+      roomCode: action.roomCode,
+      isValidCode: true
+    });
 
   } catch (err) {
     console.error(err);

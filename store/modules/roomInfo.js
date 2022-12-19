@@ -66,6 +66,7 @@ function RoomGenRequest(state, action){
     state.roomGenRequestLoading = true;
     state.roomGenRequestnDone = false;
     state.roomGenRequestError = null;
+    state.info = action.data;
 }
 
 //ROOM_GEN_SUCCESS
@@ -75,8 +76,6 @@ function RoomGenSuccess(state, action){
     state.roomGenRequestnDone = true;
     state.roomGenRequestError = null;
     state.roomCode = action.data.result[0];
-    console.log(state.roomCode);
-
 }
 
 
@@ -103,7 +102,9 @@ function RoomInfoRequest(state){
 function RoomInfoSuccess(state, action){
     state.roomInfoRequestLoading = false;
     state.roomInfoRequestnDone = true;
-    state.info = dummyRoomInfo(action.data);
+    state.info =  action.data.result[0];
+
+    console.log("Room Info Success: ",state.info);
 }
 
 

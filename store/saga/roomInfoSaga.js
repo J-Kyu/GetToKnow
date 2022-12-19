@@ -25,10 +25,22 @@ function createRoomAxios(data){
   let form = new FormData();
   form.append('roomType', data.roomType);
   form.append('maxNum', data.maxNum);
+  form.append('releaseDateTime', data.releaseDateTime);
+
 
   return axios.post(
       '/room/new',
       form,
+      {withCredentials: true}
+    );
+}
+
+
+
+//Request Room Info
+function requestRoomInfoAxios(roomCode){
+  return axios.get(
+      '/room/'+roomCode+'/find',
       {withCredentials: true}
     );
 }
@@ -49,7 +61,7 @@ function* CreateRoomRequest(action) {
     //Request Public Questions
     yield put({
       type: PUBLIC_QUESTIONS_REQUEST,
-      data: result.data.result[0]
+      roomCode: result.data.result[0]
     });
 
   
@@ -68,21 +80,37 @@ function* CreateRoomRequest(action) {
 function* RoomInfoRequest(action) {
   try {
     console.log('saga request room info');
-    // const result = yield call(logInAPI);
+    const result = yield call(requestRoomInfoAxios,action.roomCode);
 
-    //Delay
-    yield delay(2000);
-
-    //Response Success
-    yield put({
-      type: ROOM_INFO_SUCCESS,
-      data: action.data,
-    });       
+    switch(result.data.code){
+      case 200:{
+        //Response Success
+        yield put({
+          type: ROOM_INFO_SUCCESS,
+          data: result.data,
+        });       
+        break;
+      }
+      case 400:{
+       throw new errr("400-ERROR");
+        break;
+      }
+      default:{
+        break;
+      }
+    }
+     
   } catch (err) {
     console.error(err);
     yield put({
       type: ROOM_INFO_FAILURE,
       error: err.data,
+    });
+
+    yield put({
+      type: ALERT_ERROR,
+      message: "Wrong Room Code: "+action.roomCode,
+      description: "Room code "+action.roomCode+ " does not exist. Please check again."
     });
   }
 }

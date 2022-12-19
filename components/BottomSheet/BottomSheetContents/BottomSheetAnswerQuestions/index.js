@@ -24,24 +24,27 @@ const BottomSheetAnswerQuestions = () => {
 
     //redux
     const publicQuestionsState = useSelector(({publicQuestions}) => publicQuestions);
+
+    const enterRoomState = useSelector(({enterRoom}) => enterRoom);
+
     const dispatch = useDispatch();
     
     //request questions
     useEffect(() => {
         if( publicQuestionsState.publicQuestions == null){
-            dispatch({type: PUBLIC_QUESTIONS_REQUEST});
+            dispatch({
+                type: PUBLIC_QUESTIONS_REQUEST,
+                roomCode: enterRoomState.requestRoomCode
+            });
         }
 
-    },[publicQuestionsState.publicQuestions]);
+    },[]);
     
     //Ready Button -> Move to Room Ticket 
     const readyButtonHandler = () => {
-
         dispatch({type: BOTTOM_SHEET_ROOM_TICKET});
-
-
-
     };
+
 
     if (publicQuestionsState.publicQuestions == null){
         return (
@@ -52,7 +55,7 @@ const BottomSheetAnswerQuestions = () => {
         return (
             <>
                 <Wrapper>
-                    <QnAList questions={publicQuestionsState.publicQuestions.questions}/>
+                    <QnAList questions={publicQuestionsState.publicQuestions}/>
                     <ReadyButtonWrapper>
                         <Button type='primary' style={{  height: "100%", width: "100%"}} onClick={readyButtonHandler}>
                             준비 완료
@@ -82,7 +85,7 @@ const QnAList = ({questions}) => {
     const listRender = [];
 
     for (let i = 0; i < questions.length; i++){
-        listRender.push(<QuestionsAndAnswerForm index={i} question= {questions[i]}/>)
+        listRender.push(<QuestionsAndAnswerForm index={i} question= {questions[i].question}/>)
     }
 
 

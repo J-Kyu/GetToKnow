@@ -25,7 +25,7 @@ function* PublicQuestionsRequest(action) {
   try {
     console.log('saga request public question');
 
-    const result = yield call(getPublicQuestionAxios,action.data);
+    const result = yield call(getPublicQuestionAxios,action.roomCode);
 
     yield put({
       type: PUBLIC_QUESTIONS_SUCCESS,
@@ -35,7 +35,7 @@ function* PublicQuestionsRequest(action) {
     console.error(err);
     yield put({
       type: PUBLIC_QUESTIONS_FAILURE,
-      error: err.response.data,
+      error: err.data,
     });
   }
 }

@@ -37,7 +37,10 @@ const GenerateRoomContent = () => {
     const [size, setSize] = useState('middle');
 
     const [roomType, setRoomType] = useState("TYPE_A");
-    const [maxNum, setMaxNum] = useState(0);
+    const [maxNum, setMaxNum] = useState(1);
+    const [releaseDate, setReleaseDate] = useState("");
+    const [releaseTime, setReleaseTime] = useState("");
+
 
 
     //types
@@ -73,10 +76,24 @@ const GenerateRoomContent = () => {
           },
           label: <strong>깊게</strong>,
         },
-      };
+    };
 
     //date format
-    const format = 'HH:mm';
+    const timeFormat = 'HH:mm';
+    const dateFormat = "yyyy-MM-DD";
+
+    //time change function
+    const onChangeTime = (time, timeString) => {
+        console.log(timeString, typeof(timeString));
+        setReleaseTime(timeString);
+
+    };
+
+    const onChangeDate = (date, dateString) => {
+        console.log(dateString);
+        setReleaseDate(dateString);
+    };
+
 
     //dispatch
     const dispatch = useDispatch();
@@ -85,14 +102,17 @@ const GenerateRoomContent = () => {
     const GenerateRoomHandler = useCallback(() => {
         dispatch({type: BOTTOM_SHEET_ROOM_QUESTIONS})
 
+        const releaseDateTime = releaseDate+"T"+releaseTime;
+        console.log(releaseDateTime);
         dispatch({type: ROOM_GEN_REQUEST, 
             data: {
                 roomType: roomType,
-                maxNum: maxNum
+                maxNum: maxNum,
+                releaseDateTime: releaseDateTime
             }
         });
 
-    },[roomType,maxNum]);
+    },[roomType,maxNum,releaseDate,releaseTime]);
 
 
     return (
@@ -131,7 +151,7 @@ const GenerateRoomContent = () => {
                         </Col>
                         <Col span={16}>
                             <Rate 
-                                defaultValue={2} 
+                                defaultValue={1} 
                                 character={({ index }) => index + 1} 
                                 onChange={(value)=>{setMaxNum(value)}}
                             />
@@ -154,10 +174,10 @@ const GenerateRoomContent = () => {
                             날짜
                         </Col>
                         <Col span={8}>
-                            <DatePicker/>
+                            <DatePicker format={dateFormat} onChange={onChangeDate}/>
                         </Col>
                         <Col span={8}>
-                            <TimePicker format={format} />
+                            <TimePicker format={timeFormat}  onChange={onChangeTime}/>
                         </Col>
                     </Row>
                 </ContentsWrapper>

@@ -91,24 +91,44 @@ const BottomSheetRoomTicket = () => {
 
     const {Canvas} = useQRCode();
     const dispatch = useDispatch();
+
     const roomInfo = useSelector( ({roomInfo}) => roomInfo);
 
-    const [totalUserNum, setTotalUserNum] = useState(0);
-    const  [joinedUserNum, setJoinedUserNum] = useState(0);
+    const [releaseDate,setReleaseDate] = useState("");
+    const [releaseTime,setReleaseTime] = useState("");
 
 
     useEffect(() => {
-        dispatch({type: ROOM_INFO_REQUEST})
+        // request room info
+        dispatch({
+            type: ROOM_INFO_REQUEST,
+            roomCode: roomInfo.roomCode
+        })
 
     },[dispatch]);
 
-    useEffect(()=>{
-        if (roomInfo.info != null){
-            setTotalUserNum(roomInfo.info.userMaxNum);
-            setJoinedUserNum(roomInfo.info.joinedTicketNo.length);
+
+    useEffect(() => {
+
+        if (roomInfo.info == null){
+            return;
+        }
+
+
+        if (roomInfo.info.releaseDateTime != null){
+            const dateTime = roomInfo.info.releaseDateTime.split('T');
+            //Date
+            const date = dateTime[0].split('-');
+            setReleaseDate(date[0]+"년"+date[1]+"월"+date[2]+"일");
+
+            //Time
+            const time = dateTime[1].split(':');
+            setReleaseTime(time[0]+"시"+time[1]+"분"); //Time
+
         }
 
     },[roomInfo.info]);
+
 
     //loading
     if (roomInfo.info == null){
@@ -120,13 +140,14 @@ const BottomSheetRoomTicket = () => {
     }
     //Roo Ticket
     else{
+
         return (
                     <>
                         <Wrapper>
                             {/* Room Code  */}
                             <RoomCodeWrapper>
                                 <div style={{fontSize: "1rem"}}>Room Code</div>
-                                <div style={{fontSize: "1.5rem"}}>#{roomInfo.info.roomCode}</div>
+                                <div style={{fontSize: "1.5rem"}}>#{roomInfo.roomCode}</div>
                             </RoomCodeWrapper>
 
                             {/* QR Code */}
@@ -147,12 +168,13 @@ const BottomSheetRoomTicket = () => {
 
                             {/* INFO */}
                             <TicketInfoWrapper>
+                                Release At
                                 {/* Relase DATE */}
-                                <ReleaseDateWrapper>{roomInfo.info.releaseDate} </ReleaseDateWrapper>
+                                <ReleaseDateWrapper>{releaseDate}</ReleaseDateWrapper>
                                 {/* Release TIME */}
                                 <InMeetingTimeWrapper>
-                                    <ReleaseTimeWrapper>{roomInfo.info.releaseTime}~ </ReleaseTimeWrapper>
-                                    <EndTimeWrapper>{roomInfo.info.endTime}</EndTimeWrapper>
+                                    <ReleaseTimeWrapper>{releaseTime}</ReleaseTimeWrapper>
+                                    {/* <EndTimeWrapper>{roomInfo.info.endTime}</EndTimeWrapper> */}
 
                                 </InMeetingTimeWrapper>
 
@@ -166,7 +188,7 @@ const BottomSheetRoomTicket = () => {
                                         let userState = []
                                         let keyIndex = 0
                                         // joined user
-                                        for(let i = 0; i < joinedUserNum; i++){
+                                        /*for(let i = 0; i < joinedUserNum; i++){
                                             userState.push(<UserOutlined style={{color:"green"}} key={keyIndex}/>)
                                             keyIndex += 1;
                                         }
@@ -174,8 +196,11 @@ const BottomSheetRoomTicket = () => {
                                         for(let i = 0; i < totalUserNum-joinedUserNum; i++){
                                             userState.push(<UserOutlined style={{color:"gray"}}  key={keyIndex}/>)
                                             keyIndex += 1;
+                                        }*/
+                                        for(let i = 0; i < roomInfo.info.maxNum; i++){
+                                            userState.push(<UserOutlined style={{color:"gray"}}  key={keyIndex}/>)
+                                            keyIndex += 1;
                                         }
-
                                         return userState;
                                     }()}
                                 </InfoWrapper>

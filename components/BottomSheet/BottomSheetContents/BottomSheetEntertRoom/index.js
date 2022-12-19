@@ -2,7 +2,7 @@ import React, {useState,useEffect, useCallback} from 'react';
 import styled from 'styled-components';
 import { Input, Button} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import {ENTER_ROOM_REQUEST,ENTER_ROOM_RESET} from 'store/modules/enterRoom';
+import {ENTER_ROOM_REQUEST} from 'store/modules/enterRoom';
 import {BOTTOM_SHEET_ANSWER_QUESTIONS} from 'store/modules/bottomSheetState';
 import BottomSheetLoading from '../BottomSheetLoading';
 
@@ -48,8 +48,6 @@ const BottomSheetEntertRoom = () => {
 
         if(enterRoomState.requestRoom == true){
             dispatch({type: BOTTOM_SHEET_ANSWER_QUESTIONS});
-            dispatch({type: ENTER_ROOM_RESET});
-
         }
 
 
