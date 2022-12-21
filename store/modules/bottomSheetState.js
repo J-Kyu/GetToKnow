@@ -33,6 +33,7 @@ export const  BOTTOM_SHEET_TEST = 'bottomSheetState/BOTTOM_SHEET_TEST';
 const initialState = {
     sheetState: BOTTOM_SHEET_LOGIN,
     sheetOpen: false,
+    data: null,
  };
 
 const userSlice = createSlice({
@@ -40,23 +41,23 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         //state
-        BOTTOM_SHEET_LOGIN: (state) => {BottomSheetLogin(state)},
-        BOTTOM_SHEET_ROOM_LOBBY: (state) => {BottomSheetRoomLobby(state)},
-        BOTTOM_SHEET_GENERATE_ROOM: (state) => {BottomSheetGenerateRoom(state)},
-        BOTTOM_SHEET_ENTER_ROOM: (state) => {BottomSheetEnterRoom(state)},
-        BOTTOM_SHEET_LOADING: (state) => {BottomSheetLoading(state)},
-        BOTTOM_SHEET_ROOM_QUESTIONS: (state) => {BottomSheetRoomQuestions(state)},
-        BOTTOM_SHEET_ROOM_TICKET: (state) => {BottomSheetRoomTicket(state)},
-        BOTTOM_SHEET_ANSWER_QUESTIONS: (state) => {BottomSheetAnswerQuestions(state)},
+        BOTTOM_SHEET_LOGIN: (state, action) => {BottomSheetLogin(state)},
+        BOTTOM_SHEET_ROOM_LOBBY: (state, action) => {BottomSheetRoomLobby(state)},
+        BOTTOM_SHEET_GENERATE_ROOM: (state, action) => {BottomSheetGenerateRoom(state)},
+        BOTTOM_SHEET_ENTER_ROOM: (state, action) => {BottomSheetEnterRoom(state)},
+        BOTTOM_SHEET_LOADING: (state, action) => {BottomSheetLoading(state)},
+        BOTTOM_SHEET_ROOM_QUESTIONS: (state, action) => {BottomSheetRoomQuestions(state,action)},
+        BOTTOM_SHEET_ROOM_TICKET: (state, action) => {BottomSheetRoomTicket(state,action)},
+        BOTTOM_SHEET_ANSWER_QUESTIONS: (state, action) => {BottomSheetAnswerQuestions(state)},
 
 
         //sheet open 
-        BOTTOM_SHEET_ON: (state) => {BottomSheetOn(state)},
-        BOTTOM_SHEET_OFF: (state) => {BottomSheetOff(state)},
+        BOTTOM_SHEET_ON: (state, action) => {BottomSheetOn(state)},
+        BOTTOM_SHEET_OFF: (state, action) => {BottomSheetOff(state)},
 
 
 
-        BOTTOM_SHEET_TEST: (state) => {BottomSheetTest(state)},
+        BOTTOM_SHEET_TEST: (state, action) => {BottomSheetTest(state)},
         
     },
 });
@@ -86,13 +87,14 @@ function BottomSheetLoading(state){
 }
 
 //BOTTOM_SHEET_ROOM_QUESTIONS
-function BottomSheetRoomQuestions(state){
+function BottomSheetRoomQuestions(state, action){
     state.sheetState = BOTTOM_SHEET_ROOM_QUESTIONS;
 }
 
 //BOTTOM_SHEET_ROOM_TICKET
-function BottomSheetRoomTicket(state){
+function BottomSheetRoomTicket(state, action){
     state.sheetState = BOTTOM_SHEET_ROOM_TICKET;
+    state.data = action.data;
 }
 
 //BOTTOM_SHEET_ANSWER_QUESTIONS

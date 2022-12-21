@@ -7,6 +7,7 @@ import {BOTTOM_SHEET_ROOM_TICKET} from 'store/modules/bottomSheetState';
 import QuestionsList from './PublicQuestionsList';
 import PrivateQuestionsList from './PrivateQuestionsList';
 import BottomSheetLoading from '../BottomSheetLoading';
+import roomInfo from '@/store/modules/roomInfo';
 
 const Wrapper = styled.div`
     color-white;
@@ -22,6 +23,8 @@ const SubmitWrapper = styled.div`
 const BottomSheetRoomQuestions = () => {
 
     const publicQuestionsState = useSelector(({publicQuestions}) => publicQuestions);
+
+    const roomInfo = useSelector(({roomInfo}) => roomInfo);
     
     const dispatch = useDispatch();
 
@@ -36,8 +39,13 @@ const BottomSheetRoomQuestions = () => {
 
     //generate room handler
     const GenerateRoomHandler = useCallback(() => {
-        dispatch({type: BOTTOM_SHEET_ROOM_TICKET});
-    },[dispatch]);
+        console.log("````````````",roomInfo.roomCode)
+        dispatch({
+            type: BOTTOM_SHEET_ROOM_TICKET,
+            data: roomInfo.roomCode,
+        });
+
+    },[roomInfo.roomCode]);
 
     useEffect(() => {console.log(publicQuestionsState.publicQuestions);},[publicQuestionsState.publicQuestions]) ;
 

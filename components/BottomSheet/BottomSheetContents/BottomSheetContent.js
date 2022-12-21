@@ -42,21 +42,6 @@ const BottomSheetContent = ({contetRef}) => {
     const bottomSheetState = useSelector(({bottomSheetState}) => bottomSheetState);
     const dispatch = useDispatch();
 
-    /*
-    useEffect(() =>{
-
-
-        if(userInfo.me == null){
-            dispatch({type: BOTTOM_SHEET_LOGIN});
-        }
-        else{
-            dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
-        }
-
-    }, [userInfo.me]);
-    */
-
-
     //BOTTOM_SHEET_ROOM_LOBBY
     switch (bottomSheetState.sheetState){
         case BOTTOM_SHEET_LOGIN: {
@@ -133,7 +118,7 @@ const BottomSheetContent = ({contetRef}) => {
             return(
                 <>
                     <Wrapper ref = {contetRef}>
-                        <BottomSheetRoomTicket/>
+                        <BottomSheetRoomTicket roomCode={bottomSheetState.data}/>
                     </Wrapper>
                 </>
             );

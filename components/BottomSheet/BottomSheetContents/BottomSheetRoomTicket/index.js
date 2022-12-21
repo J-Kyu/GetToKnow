@@ -87,7 +87,7 @@ const WarningWrapper = styled.div`
 //npm install @svgr/webpack
 
 
-const BottomSheetRoomTicket = () => {
+const BottomSheetRoomTicket = ({roomCode}) => {
 
     const {Canvas} = useQRCode();
     const dispatch = useDispatch();
@@ -97,12 +97,11 @@ const BottomSheetRoomTicket = () => {
     const [releaseDate,setReleaseDate] = useState("");
     const [releaseTime,setReleaseTime] = useState("");
 
-
     useEffect(() => {
         // request room info
         dispatch({
             type: ROOM_INFO_REQUEST,
-            roomCode: roomInfo.roomCode
+            roomCode: roomCode
         })
 
     },[dispatch]);
@@ -147,7 +146,7 @@ const BottomSheetRoomTicket = () => {
                             {/* Room Code  */}
                             <RoomCodeWrapper>
                                 <div style={{fontSize: "1rem"}}>Room Code</div>
-                                <div style={{fontSize: "1.5rem"}}>#{roomInfo.roomCode}</div>
+                                <div style={{fontSize: "1.5rem"}}>#{roomCode}</div>
                             </RoomCodeWrapper>
 
                             {/* QR Code */}

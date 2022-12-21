@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 import styled from 'styled-components';
-import {Input,Button} from 'antd';
+import {Input,Button,Radio} from 'antd';
 import BottomSheetLoading from '../BottomSheetLoading';
 import { useSelector, useDispatch } from 'react-redux';
 import {PUBLIC_QUESTIONS_REQUEST} from 'store/modules/publicQuestions';
@@ -42,7 +42,10 @@ const BottomSheetAnswerQuestions = () => {
     
     //Ready Button -> Move to Room Ticket 
     const readyButtonHandler = () => {
-        dispatch({type: BOTTOM_SHEET_ROOM_TICKET});
+        dispatch({
+            type: BOTTOM_SHEET_ROOM_TICKET,
+            data: enterRoomState.requestRoomCode
+        });
     };
 
 
@@ -85,7 +88,7 @@ const QnAList = ({questions}) => {
     const listRender = [];
 
     for (let i = 0; i < questions.length; i++){
-        listRender.push(<QuestionsAndAnswerForm index={i} question= {questions[i].question}/>)
+        listRender.push(<QuestionsAndAnswerForm key={i} index={i} question= {questions[i].question}/>)
     }
 
 
@@ -114,7 +117,10 @@ const QuestionsWrapper = styled.div`
 const AnswerWrapper = styled.div`
     display: flex;
     flex-direction: row;
-    height: 10vh;
+    align-items: center;
+    justify-content: space-around;
+}
+    // height: 5vh;
 `;
 
 const QuestionsAndAnswerForm = ({index, question}) => {
@@ -142,10 +148,18 @@ const QuestionsAndAnswerForm = ({index, question}) => {
                 </QuestionsWrapper>
             
                 <AnswerWrapper>
-                    <TextArea  value={answer} onChange={inputChangeHandler}  onClick={()=>{inputRef.current.scrollIntoView({behavior: "smooth"})}} />
+                    {/* <TextArea  value={answer} onChange={inputChangeHandler}  onClick={()=>{inputRef.current.scrollIntoView({behavior: "smooth"})}} />
                     <Button type="primary" style={{height: "100%"}}>
                         저장
-                    </Button>
+                    </Button> */}
+
+                    <Radio.Group name="radiogroup" defaultValue={3}buttonStyle="solid" size="large">
+                        <Radio.Button value={1}>🥰</Radio.Button>
+                        <Radio.Button value={2}>😊</Radio.Button>
+                        <Radio.Button value={3}>😐 </Radio.Button>
+                        <Radio.Button value={4}>😔</Radio.Button>
+                        <Radio.Button value={5}>😭</Radio.Button>
+                    </Radio.Group>
                 </AnswerWrapper>
             </QnAWrapper>
         </>
