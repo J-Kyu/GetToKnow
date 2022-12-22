@@ -52,6 +52,7 @@ function* CreateRoomRequest(action) {
     //axios request
     let result = yield call(createRoomAxios, action.data);
 
+    console.log(result);
     //Response Success
     yield put({
       type: ROOM_GEN_SUCCESS,

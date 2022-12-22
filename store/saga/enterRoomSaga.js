@@ -1,10 +1,12 @@
-import { all, delay, fork, put, takeLatest } from 'redux-saga/effects';
+import { all, delay, fork, put, takeLatest, call } from 'redux-saga/effects';
 
 import {
     ENTER_ROOM_REQUEST,
     ENTER_ROOM_SUCCESS,
     ENTER_ROOM_FAILURE
 } from '../modules/enterRoom';
+
+import axios from 'axios';
 
 import {
   ALERT_SUCCESS,
@@ -24,20 +26,41 @@ function requestRoomInfoAxios(roomCode){
     );
 }
 
+
+//Request Room Info
+function requestRoomTicketAxios(roomCode){
+  return axios.get(
+      '/roomTicket/'+roomCode+'/find',
+      {withCredentials: true}
+    );
+}
+
+
 function* EnterRoomRequest(action) {
   try {
-    console.log('saga request enter room');
+    console.log('saga request enter room -> Request Room Ticket');
 
-    yield put({
-      type: ROOM_INFO_REQUEST,
-      roomCode: action.roomCode
-    });
+    const result = yield call(requestRoomTicketAxios,action.roomCode);
 
-    yield put({
-      type: ENTER_ROOM_SUCCESS,
-      roomCode: action.roomCode,
-      isValidCode: true
-    });
+    switch(result.data.code){
+      case 200:{
+        //Response Success
+        yield put({
+          type: ENTER_ROOM_SUCCESS,
+          roomCode: action.roomCode,
+          isValidCode: true
+        });       
+        break;
+      }
+      case 400:{
+       throw new errr("400-ERROR");
+        break;
+      }
+      default:{
+        break;
+      }
+    }
+
 
   } catch (err) {
     console.error(err);
