@@ -48,7 +48,8 @@ function* EnterRoomRequest(action) {
         yield put({
           type: ENTER_ROOM_SUCCESS,
           roomCode: action.roomCode,
-          isValidCode: true
+          isValidCode: true,
+          data: result.data.result[0]
         });       
         break;
       }

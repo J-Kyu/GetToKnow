@@ -11,6 +11,7 @@ export const  ENTER_ROOM_RESET = 'enterRoomState/ENTER_ROOM_RESET';
 
 
 
+
 const initialState = {
 
     requestLoading: false, 
@@ -20,6 +21,7 @@ const initialState = {
     requestRoom: false,
 
     requestRoomCode: "",
+    ticketInfo: null
 };
 
 
@@ -30,6 +32,7 @@ const userSlice = createSlice({
         ENTER_ROOM_REQUEST: (state) => {EnterRoomRequest(state)},
         ENTER_ROOM_SUCCESS: (state, action) => {EnterRoomSuccess(state,action)},
         ENTER_ROOM_FAILURE: (state,action) => {EnterRoomFailure(state, action)},
+        ENTER_ROOM_RESET: (state,action) => {EnterRoomReset(state)},
        
     },
 });
@@ -51,6 +54,7 @@ function EnterRoomSuccess(state, action){
     if (action.isValidCode == true){
         state.requestRoom = true;
         state.requestRoomCode = action.roomCode;
+        state.ticketInfo = action.data
     }
     else{
         state.requestRoom = false;
@@ -69,13 +73,17 @@ function EnterRoomFailure(state, action){
     state.requestRoom = false;
 }
 
-//PUBLIC_QUESTIONS_FAILURE
+//EnterRoomReset
 function EnterRoomReset(state){
     state.requestLoading = false;
     state.requestnDone = false;
     state.requestError = null;
-    state.requestRoomCode = "";
+
     state.requestRoom = false;
+
+    state.requestRoomCode = "";
+    state.ticketInfo = null;
+
 }
 
 export default userSlice.reducer; // 리듀서;

@@ -4,6 +4,7 @@ import userSaga from './userSaga';
 import pubicQuestionsSaga from 'store/saga/publicQuestionsSaga';
 import roomInfoSaga from './roomInfoSaga';
 import enterRoomSaga from './enterRoomSaga';
+import publicAnswerSaga from './publicAnswerSaga';
 import testSaga from './testSaga';
 
 
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     fork(pubicQuestionsSaga),
     fork(roomInfoSaga),
     fork(enterRoomSaga),
-    fork(testSaga)
+    fork(testSaga),
+    fork(publicAnswerSaga)
   ]);
 }

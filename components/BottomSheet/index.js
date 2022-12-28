@@ -9,19 +9,20 @@ import BottomSheetContent from './BottomSheetContents/BottomSheetContent';
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
+    // max-width: 100%;
+    background-color: black;
+
 
     position: fixed;
+    // position: fixed;
     z-index: 1;
     top: ${BOTTOM_SHEET_DTOP_GAP}%;
-    // top: 0%;
 
-    // bottom: 10px;
-    left: 0;
-    right: 0;
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background-color: black;
+
 
     height: ${BOTTOM_SHEET_HEIGHT}%;
     transition: transform 1s ease-out;

@@ -1,34 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
+
+import TicketSheet from './TicketSheet';
+import RadarChart from './Chart';
 
 const MainWrapper = styled.div`
-    position: fixed;
-    height: 100%;
+    display: flex;
+    height: 10vh;
     width: 100%;
+    align-items: center;
+    flex-direction: column;
     
-    background-color: gray;
+    // background-color: gray;
     font-size: 12px;
 `
+
 const SubTitleWrapper = styled.div`
-    position: absolute;
-    left: 5vw;
-    top: 5vw;
-    display: block;
-    font-size: 10vw;
+    font-size: 1rem;
     color: white;
 `
 const MainTitleWrapper = styled.div`
-    
-    position: absolute;
-    display: block;
-
-    top: 20vh;
-
     text-align: center;
-    font-size: 18vw;
+    font-size: 2rem;
 `
 
+
 const Main = () => {
+
+    const userInfo =  useSelector(({userInfo}) => userInfo);
+
+
     return (
         <>
             <MainWrapper>
@@ -37,8 +40,16 @@ const Main = () => {
                 </SubTitleWrapper>
                 <MainTitleWrapper>
                     Get To Know
-                </MainTitleWrapper>
-            </MainWrapper>
+                </MainTitleWrapper> 
+                {
+                    userInfo.me !== null 
+                    ? <div>Good</div>
+                    : <div>Bad</div>
+                }
+                {/* <TicketSheet/> */}
+            </MainWrapper> 
+            
+            {/* <RadarChart/> */}
         </>
     );
 };

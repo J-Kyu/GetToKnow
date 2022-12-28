@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 const ContentsWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 5vh;
+    gap: 3vh;
     padding: 5vw;
 `;
 

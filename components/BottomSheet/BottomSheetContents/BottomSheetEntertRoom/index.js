@@ -2,8 +2,8 @@ import React, {useState,useEffect, useCallback} from 'react';
 import styled from 'styled-components';
 import { Input, Button} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import {ENTER_ROOM_REQUEST} from 'store/modules/enterRoom';
-import {BOTTOM_SHEET_ANSWER_QUESTIONS} from 'store/modules/bottomSheetState';
+import {ENTER_ROOM_REQUEST, ENTER_ROOM_RESET} from 'store/modules/enterRoom';
+import {BOTTOM_SHEET_ANSWER_QUESTIONS, BOTTOM_SHEET_ROOM_TICKET} from 'store/modules/bottomSheetState';
 import BottomSheetLoading from '../BottomSheetLoading';
 
 
@@ -46,12 +46,29 @@ const BottomSheetEntertRoom = () => {
     //move on to ANswer questions
     useEffect(()=>{
 
-        if(enterRoomState.requestRoom == true){
-            dispatch({type: BOTTOM_SHEET_ANSWER_QUESTIONS});
+        if (enterRoomState.ticketInfo == null){
+            return;
         }
 
+        if(enterRoomState.ticketInfo.ticketState == "READY"){
+            dispatch({type: BOTTOM_SHEET_ANSWER_QUESTIONS});
+        }
+        else if(enterRoomState.ticketInfo.ticketState == "DONE"){
+            
+            // move to Bottom Sheet Room Ticket
+            dispatch({
+                type: BOTTOM_SHEET_ROOM_TICKET,
+                data: roomCode
+            });
 
-    },[enterRoomState.requestRoom]);
+            // reset enterRoom Saga
+            dispatch({
+                type: ENTER_ROOM_RESET,
+            });
+
+        }
+
+    },[enterRoomState.ticketInfo]);
 
     const connectHandler = useCallback(() => {
         dispatch({

@@ -12,13 +12,37 @@ import {
     LOAD_USER_INFO_REQUEST
 } from 'store/modules/userInfo';
 
+import AppLayout from '@/components/AppLayout';
+
+const Container = styled.div`
+    position: absolute;
+    // top: 0;
+    left: 0;
+    right: 0;
+    // width: 100%;
+    // bottom: 0;
+    min-height: 100%;
+
+    background-color: gray;
+
+`;
+
 const Home = () => {
 
     return (
         <>
-            <AlertMessage/>
-            <Main style={{height: "100px",backgroundColor: "red"}}/>
-            <BottomSheet/>
+            <Container>
+                <AlertMessage/>
+
+                <AppLayout>
+                    <Main/>
+                </AppLayout>
+                <BottomSheet/>
+            </Container>
+
+
+
+
         </>
 
     );

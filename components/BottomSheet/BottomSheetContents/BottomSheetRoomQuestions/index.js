@@ -65,7 +65,7 @@ const BottomSheetRoomQuestions = () => {
                 <Wrapper>
                  <>
                     <QuestionsList questions={publicQuestionsState.publicQuestions} />
-                    <PrivateQuestionsList/>
+                    {/* <PrivateQuestionsList/> */}
                     <SubmitWrapper>
                         <Radio.Button onClick={GenerateRoomHandler} value="default" size="large">방 생성</Radio.Button>
                     </SubmitWrapper>

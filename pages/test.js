@@ -5,35 +5,42 @@ import { Button} from 'antd';
 import {SAVE_COOKIE, LOAD_COOKIE, REMOVE_COOKIE}from '@/store/modules/testState'
 import styled from 'styled-components';
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend,CategoryScale } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Radar } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend,CategoryScale);  
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
 
-
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+export const data = {
+  labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6'],
   datasets: [
     {
-      type: 'line',
-      label: 'Dataset 1',
-      borderColor: 'rgb(54, 162, 235)',
-      borderWidth: 2,
-      data: [1, 2, 3, 4, 5],
+      label: '# of Votes',
+      data: [2, 9, 3, 5, 2, 3],
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
     },
     {
-      type: 'bar',
-      label: 'Dataset 2',
-      backgroundColor: 'rgb(255, 99, 132)',
-      data: [1, 2, 3, 4, 5, 6],
-      borderColor: 'red',
-      borderWidth: 2,
-    },
-    {
-      type: 'bar',
-      label: 'Dataset 3',
-      backgroundColor: 'rgb(75, 192, 192)',
-      data: [1, 2, 3, 4, 5, 6],
+      label: '# of Votes',
+      data: [3, 5, 7, 1, 7, 2],
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
     },
   ],
 };
@@ -41,7 +48,7 @@ const data = {
 const Chart = () => {
   return (
     <Container>
-      <Doughnut data={data} />
+      <Radar data={data} />
     </Container>
   );
 };

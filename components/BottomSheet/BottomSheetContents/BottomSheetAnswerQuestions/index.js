@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import {Input,Button,Radio} from 'antd';
 import BottomSheetLoading from '../BottomSheetLoading';
 import { useSelector, useDispatch } from 'react-redux';
 import {PUBLIC_QUESTIONS_REQUEST} from 'store/modules/publicQuestions';
 import {BOTTOM_SHEET_ROOM_TICKET} from 'store/modules/bottomSheetState';
-
+import {ANSWER_UPDATE_REQUEST} from "store/modules/publicAnswerState";
 
 const Wrapper = styled.div`
     color: white;
@@ -24,10 +24,14 @@ const BottomSheetAnswerQuestions = () => {
 
     //redux
     const publicQuestionsState = useSelector(({publicQuestions}) => publicQuestions);
-
     const enterRoomState = useSelector(({enterRoom}) => enterRoom);
+    const answerState = useSelector(({publicAnswerState}) => publicAnswerState);
+
 
     const dispatch = useDispatch();
+
+
+    const questionAnswerPair = {}
     
     //request questions
     useEffect(() => {
@@ -38,14 +42,33 @@ const BottomSheetAnswerQuestions = () => {
             });
         }
 
-    },[]);
+    },[publicQuestionsState.publicQuestions]);
+
+    useEffect(() => {
+        if (answerState.answerUpdateSuccess == true){
+            dispatch({
+                type: BOTTOM_SHEET_ROOM_TICKET,
+                data: enterRoomState.requestRoomCode
+            });
+        }
+    },[answerState.answerUpdateSuccess]);
     
     //Ready Button -> Move to Room Ticket 
     const readyButtonHandler = () => {
+        console.log(questionAnswerPair);
+
+        dispatch({
+            type: ANSWER_UPDATE_REQUEST,
+            data: questionAnswerPair,
+            roomCode: enterRoomState.requestRoomCode
+        });
+
+        /*
         dispatch({
             type: BOTTOM_SHEET_ROOM_TICKET,
             data: enterRoomState.requestRoomCode
         });
+        */
     };
 
 
@@ -58,7 +81,7 @@ const BottomSheetAnswerQuestions = () => {
         return (
             <>
                 <Wrapper>
-                    <QnAList questions={publicQuestionsState.publicQuestions}/>
+                    <QnAList questionAnswerPair = {questionAnswerPair} questions={publicQuestionsState.publicQuestions}/>
                     <ReadyButtonWrapper>
                         <Button type='primary' style={{  height: "100%", width: "100%"}} onClick={readyButtonHandler}>
                             준비 완료
@@ -82,13 +105,14 @@ const QnAListWrapper = styled.div`
 
 `;
 
-const QnAList = ({questions}) => {
+const QnAList = ({questionAnswerPair,questions}) => {
 
     //questions and answers
     const listRender = [];
 
     for (let i = 0; i < questions.length; i++){
-        listRender.push(<QuestionsAndAnswerForm key={i} index={i} question= {questions[i].question}/>)
+        listRender.push(<QuestionsAndAnswerForm key={questions[i].id} questionAnswerPair = {questionAnswerPair} dataKey={questions[i].id} question= {questions[i].question} index={i}/>)
+        questionAnswerPair[questions[i].id] = 3;
     }
 
 
@@ -123,7 +147,7 @@ const AnswerWrapper = styled.div`
     // height: 5vh;
 `;
 
-const QuestionsAndAnswerForm = ({index, question}) => {
+const QuestionsAndAnswerForm = ({questionAnswerPair,dataKey, question, index}) => {
 
     //state
     const [answer, setAnswer] = useState("");
@@ -131,11 +155,12 @@ const QuestionsAndAnswerForm = ({index, question}) => {
     //input ref
     const inputRef = useRef();
 
-    const inputChangeHandler = e => {
+    const scoreChangeHandler = (e) => {
 
         e.preventDefault();
 
         setAnswer(e.target.value);
+        questionAnswerPair[dataKey] = e.target.value;
     };
 
     const { TextArea } = Input;
@@ -154,11 +179,11 @@ const QuestionsAndAnswerForm = ({index, question}) => {
                     </Button> */}
 
                     <Radio.Group name="radiogroup" defaultValue={3}buttonStyle="solid" size="large">
-                        <Radio.Button value={1}>🥰</Radio.Button>
-                        <Radio.Button value={2}>😊</Radio.Button>
-                        <Radio.Button value={3}>😐 </Radio.Button>
-                        <Radio.Button value={4}>😔</Radio.Button>
-                        <Radio.Button value={5}>😭</Radio.Button>
+                        <Radio.Button onChange={scoreChangeHandler} value={1}>🥰</Radio.Button>
+                        <Radio.Button onChange={scoreChangeHandler} value={2}>😊</Radio.Button>
+                        <Radio.Button onChange={scoreChangeHandler} value={3}>😐 </Radio.Button>
+                        <Radio.Button onChange={scoreChangeHandler} value={4}>😔</Radio.Button>
+                        <Radio.Button onChange={scoreChangeHandler} value={5}>😭</Radio.Button>
                     </Radio.Group>
                 </AnswerWrapper>
             </QnAWrapper>
