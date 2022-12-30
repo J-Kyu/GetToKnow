@@ -48,7 +48,7 @@ const userSlice = createSlice({
         BOTTOM_SHEET_LOADING: (state, action) => {BottomSheetLoading(state)},
         BOTTOM_SHEET_ROOM_QUESTIONS: (state, action) => {BottomSheetRoomQuestions(state,action)},
         BOTTOM_SHEET_ROOM_TICKET: (state, action) => {BottomSheetRoomTicket(state,action)},
-        BOTTOM_SHEET_ANSWER_QUESTIONS: (state, action) => {BottomSheetAnswerQuestions(state)},
+        BOTTOM_SHEET_ANSWER_QUESTIONS: (state, action) => {BottomSheetAnswerQuestions(state,action)},
 
 
         //sheet open 
@@ -98,8 +98,9 @@ function BottomSheetRoomTicket(state, action){
 }
 
 //BOTTOM_SHEET_ANSWER_QUESTIONS
-function BottomSheetAnswerQuestions(state){
+function BottomSheetAnswerQuestions(state, action){
     state.sheetState = BOTTOM_SHEET_ANSWER_QUESTIONS;
+    state.data = action.data
 }
 
 

@@ -18,7 +18,7 @@ export const  ROOM_GEN_FAILURE = 'roomInfo/ROOM_GEN_FAILURE';
 const initialState = {
 
     roomInfoRequestLoading: false, // 로그인 시도중
-    roomInfoRequestnDone: false,
+    roomInfoRequestDone: false,
     roomInfoRequestError: null,
 
     roomGenRequestLoading: false,
@@ -94,14 +94,14 @@ function RoomGenFailure(state, action){
 //ROOM_INFO_REQUEST
 function RoomInfoRequest(state){
     state.roomInfoRequestLoading = true;
-    state.roomInfoRequestnDone = false;
+    state.roomInfoRequestDone = false;
     state.info = null;
 }
 
 //ROOM_INFO_SUCCESS
 function RoomInfoSuccess(state, action){
     state.roomInfoRequestLoading = false;
-    state.roomInfoRequestnDone = true;
+    state.roomInfoRequestDone = true;
     state.info =  action.data.result[0];
 
     console.log("Room Info Success: ",state.info);
@@ -111,7 +111,7 @@ function RoomInfoSuccess(state, action){
 //ROOM_INFO_FAILURE
 function RoomInfoFailure(state, action){
     state.roomInfoRequestLoading = false;
-    state.roomInfoRequestnDone = true;
+    state.roomInfoRequestDone = true;
     state.roomInfoRequestError = action.error;
 
     state.info = null;

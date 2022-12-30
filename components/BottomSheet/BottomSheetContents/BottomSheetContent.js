@@ -87,7 +87,7 @@ const BottomSheetContent = ({contetRef}) => {
             return (
                 <>
                     <Wrapper ref = {contetRef}>
-                        <BottomSheetAnswerQuestions/>
+                        <BottomSheetAnswerQuestions roomCode={bottomSheetState.data}/>
                     </Wrapper>
                 </>
             );

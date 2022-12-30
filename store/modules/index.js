@@ -8,6 +8,7 @@ import roomInfo from "./roomInfo";
 import enterRoom from "./enterRoom";
 import alertState from "./alertState";
 import publicAnswerState from "./publicAnswerState";
+import roomTicketListState from "./roomTicketListState";
 import testState from "./testState";
 
 
@@ -26,6 +27,7 @@ const reducer = (state, action) => {
                 enterRoom,
                 alertState,
                 publicAnswerState,
+                roomTicketListState,
                 testState
         
                 // 여기에 추가
@@ -33,24 +35,6 @@ const reducer = (state, action) => {
             return combinedReducer(state, action);
         }
     }
-
-    // if (action.type === HYDRATE) {
-    //     return {
-    //         ...state,
-    //         ...action.payload
-    //     };
-    // }
-    // return combineReducers({
-    //     userInfo,
-    //     bottomSheetState,
-    //     publicQuestions,
-    //     roomInfo,
-    //     enterRoom,
-    //     alertState,
-    //     testState
-
-    //     // 여기에 추가
-    // })(state, action);
 }
 
 export default reducer;

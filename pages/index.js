@@ -14,35 +14,17 @@ import {
 
 import AppLayout from '@/components/AppLayout';
 
-const Container = styled.div`
-    position: absolute;
-    // top: 0;
-    left: 0;
-    right: 0;
-    // width: 100%;
-    // bottom: 0;
-    min-height: 100%;
-
-    background-color: gray;
-
-`;
 
 const Home = () => {
 
     return (
         <>
-            <Container>
-                <AlertMessage/>
+            <AlertMessage/>
 
-                <AppLayout>
-                    <Main/>
-                </AppLayout>
-                <BottomSheet/>
-            </Container>
-
-
-
-
+            <AppLayout>
+                <Main/>
+            </AppLayout>
+            <BottomSheet/>
         </>
 
     );

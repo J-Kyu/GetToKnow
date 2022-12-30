@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
+
+import {ROOM_TICKET_LIST_REQUEST} from "@/store/modules/roomTicketListState";
 
 import TicketSheet from './TicketSheet';
 import RadarChart from './Chart';
@@ -30,7 +32,18 @@ const MainTitleWrapper = styled.div`
 const Main = () => {
 
     const userInfo =  useSelector(({userInfo}) => userInfo);
+    const roomTicketList =  useSelector(({roomTicketListState}) => roomTicketListState);
 
+    const dispatch = useDispatch();
+
+
+    useEffect( () => {
+
+        if(userInfo.me !== null){
+            dispatch({type: ROOM_TICKET_LIST_REQUEST});
+        }
+
+    },[userInfo.me]);
 
     return (
         <>
@@ -42,9 +55,9 @@ const Main = () => {
                     Get To Know
                 </MainTitleWrapper> 
                 {
-                    userInfo.me !== null 
-                    ? <div>Good</div>
-                    : <div>Bad</div>
+                    roomTicketList.ticketList !== null 
+                    ? <TicketSheet ticketList={roomTicketList.ticketList}/>
+                    : <div>NONE</div>
                 }
                 {/* <TicketSheet/> */}
             </MainWrapper> 

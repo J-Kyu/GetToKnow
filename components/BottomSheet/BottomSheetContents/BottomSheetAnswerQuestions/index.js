@@ -20,7 +20,7 @@ const ReadyButtonWrapper = styled.div`
     width: 100vw;
 `;
 
-const BottomSheetAnswerQuestions = () => {
+const BottomSheetAnswerQuestions = ({roomCode}) => {
 
     //redux
     const publicQuestionsState = useSelector(({publicQuestions}) => publicQuestions);
@@ -38,7 +38,7 @@ const BottomSheetAnswerQuestions = () => {
         if( publicQuestionsState.publicQuestions == null){
             dispatch({
                 type: PUBLIC_QUESTIONS_REQUEST,
-                roomCode: enterRoomState.requestRoomCode
+                roomCode: roomCode
             });
         }
 
@@ -48,7 +48,7 @@ const BottomSheetAnswerQuestions = () => {
         if (answerState.answerUpdateSuccess == true){
             dispatch({
                 type: BOTTOM_SHEET_ROOM_TICKET,
-                data: enterRoomState.requestRoomCode
+                data: roomCode
             });
         }
     },[answerState.answerUpdateSuccess]);
@@ -60,7 +60,7 @@ const BottomSheetAnswerQuestions = () => {
         dispatch({
             type: ANSWER_UPDATE_REQUEST,
             data: questionAnswerPair,
-            roomCode: enterRoomState.requestRoomCode
+            roomCode: roomCode
         });
 
         /*

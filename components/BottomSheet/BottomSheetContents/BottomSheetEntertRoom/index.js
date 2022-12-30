@@ -51,7 +51,11 @@ const BottomSheetEntertRoom = () => {
         }
 
         if(enterRoomState.ticketInfo.ticketState == "READY"){
-            dispatch({type: BOTTOM_SHEET_ANSWER_QUESTIONS});
+            dispatch({
+                type: BOTTOM_SHEET_ANSWER_QUESTIONS,
+                data: enterRoomState.requestRoomCode
+
+            });
         }
         else if(enterRoomState.ticketInfo.ticketState == "DONE"){
             
