@@ -41,7 +41,8 @@ function thirdPartyLoginAxios(data){
   let form = new FormData();
   form.append('nickname', data.nickname);
   form.append('uuid',data.uuid);
-  form.append('oAuthType', "KAKAO");
+  form.append('oAuthType', data.oauthType);
+  form.append('accessToken', data.accessToken);
 
   return axios.post(
       '/user/logIn',
@@ -59,6 +60,13 @@ function loadUserInfoAxios(){
 
 }
 
+function logOutAxios(){
+  return axios.get(
+    '/user/logOut',
+    {withCredentials: true}
+  )
+}
+
 
 function* loadUserInfo(){
 
@@ -67,6 +75,9 @@ function* loadUserInfo(){
 
     const result = yield call(loadUserInfoAxios);
     //User Info Update
+
+    console.log("Load User Info Saga");
+
     yield put({
       type: LOAD_USER_INFO_SUCCESS,
       data: result.data,
@@ -109,6 +120,13 @@ function* logIn(action) {
 
           break;
         };
+        case "DEFAULT": {
+          //default log in
+          console.log('saga DEFAULT logIn');
+          result = yield call(thirdPartyLoginAxios, action.data);
+          console.log('-->',result);
+          break
+        };
         default: {
           //default log in
           console.log('saga default logIn');
@@ -135,17 +153,18 @@ function* logIn(action) {
 function* logOut(action) {
   try {
     console.log('saga log out');
-    // const result = yield call(logInAPI);
-    yield delay(1000);
+
+    const result = yield call(logOutAxios);
+
     yield put({
       type: LOG_OUT_SUCCESS,
-      data: action.data,
     });
+
   } catch (err) {
     console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
-      error: err.message,
+      error: result.err,
     });
   }
 }

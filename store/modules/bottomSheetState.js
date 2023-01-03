@@ -17,6 +17,9 @@ export const  BOTTOM_SHEET_ROOM_TICKET = 'bottomSheetState/BOTTOM_SHEET_ROOM_TIC
 
 export const  BOTTOM_SHEET_ANSWER_QUESTIONS = 'bottomSheetState/BOTTOM_SHEET_ANSWER_QUESTIONS';
 
+export const  BOTTOM_SHEET_RESULT = 'bottomSheetState/BOTTOM_SHEET_RESULT';
+
+
 
 //sheet On or Off
 export const  BOTTOM_SHEET_ON = 'bottomSheetState/BOTTOM_SHEET_ON';
@@ -50,10 +53,13 @@ const userSlice = createSlice({
         BOTTOM_SHEET_ROOM_TICKET: (state, action) => {BottomSheetRoomTicket(state,action)},
         BOTTOM_SHEET_ANSWER_QUESTIONS: (state, action) => {BottomSheetAnswerQuestions(state,action)},
 
+        //result
+        BOTTOM_SHEET_RESULT: (state,action) => {BottomSheetResult(state,action)},
 
         //sheet open 
         BOTTOM_SHEET_ON: (state, action) => {BottomSheetOn(state)},
         BOTTOM_SHEET_OFF: (state, action) => {BottomSheetOff(state)},
+
 
 
 
@@ -100,6 +106,13 @@ function BottomSheetRoomTicket(state, action){
 //BOTTOM_SHEET_ANSWER_QUESTIONS
 function BottomSheetAnswerQuestions(state, action){
     state.sheetState = BOTTOM_SHEET_ANSWER_QUESTIONS;
+    state.data = action.data
+}
+
+
+//BOTTOM_SHEET_ANSWER_QUESTIONS
+function BottomSheetResult(state, action){
+    state.sheetState = BOTTOM_SHEET_RESULT;
     state.data = action.data
 }
 

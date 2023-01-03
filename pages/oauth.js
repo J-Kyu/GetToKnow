@@ -69,7 +69,8 @@ const oauth = () => {
                     data: {
                         oauthType: "KAKAO",
                         nickname: GenNickname(),
-                        uuid: res.data.id
+                        uuid: res.data.id,
+                        accessToken: accessToken
                     }
                 });
             console.log("oAuth-", res);
@@ -89,7 +90,7 @@ const oauth = () => {
         requestToken(code)
         .then((res) => {
             console.log("->",res);
-            RequestUserId(res.data.access_token)
+            RequestUserId(res.data.access_token);
         });
   
     }, []);

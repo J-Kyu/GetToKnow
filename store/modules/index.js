@@ -9,6 +9,7 @@ import enterRoom from "./enterRoom";
 import alertState from "./alertState";
 import publicAnswerState from "./publicAnswerState";
 import roomTicketListState from "./roomTicketListState";
+import roomResultState from "./roomResultState";
 import testState from "./testState";
 
 
@@ -28,6 +29,7 @@ const reducer = (state, action) => {
                 alertState,
                 publicAnswerState,
                 roomTicketListState,
+                roomResultState,
                 testState
         
                 // 여기에 추가

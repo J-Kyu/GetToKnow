@@ -17,7 +17,6 @@ function requestRoomTicketListAxios(){
         {withCredentials: true}
       );
 }
-  
 
 
 function* RequestRoomTicketList(action) {
@@ -41,17 +40,16 @@ function* RequestRoomTicketList(action) {
         error: err.data,
       });
     }
-  }
+}
   
-
   
 function* watchCreateRequestRoomTicketList() {
     yield takeLatest(ROOM_TICKET_LIST_REQUEST, RequestRoomTicketList);
-  }
+}
   
   
   export default function* roomTicketListSaga() {
       yield all([
         fork(watchCreateRequestRoomTicketList),
       ]);
-    }
+}

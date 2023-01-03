@@ -40,12 +40,13 @@ function* requestUpdateAnswers(action){
 
         console.log(result);
 
+
+
+
         yield put({
             type: ANSWER_UPDATE_SUCCESS,
             data: result.data
         });
-
-
     }
     catch(err){
 

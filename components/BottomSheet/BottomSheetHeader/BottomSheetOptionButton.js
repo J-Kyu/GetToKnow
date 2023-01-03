@@ -12,6 +12,7 @@ import {
     BOTTOM_SHEET_ROOM_TICKET,
     BOTTOM_SHEET_ENTER_ROOM,
     BOTTOM_SHEET_LOADING,
+    BOTTOM_SHEET_RESULT,
     BOTTOM_SHEET_ON,
     BOTTOM_SHEET_OFF
   } from 'store/modules/bottomSheetState';
@@ -79,6 +80,11 @@ const BottomSheetOptionButton = () => {
                 break;
             }
             case BOTTOM_SHEET_ROOM_TICKET:{
+                setPrevSheetState(BOTTOM_SHEET_ROOM_LOBBY);
+                setOptionBtnVisibility(true);
+                break;
+            }
+            case BOTTOM_SHEET_RESULT:{
                 setPrevSheetState(BOTTOM_SHEET_ROOM_LOBBY);
                 setOptionBtnVisibility(true);
                 break;

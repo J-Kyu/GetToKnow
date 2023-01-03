@@ -5,7 +5,18 @@ import {BOTTOM_SHEET_DBOTTOM_GAP} from 'configs/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import RoomButton from 'components/BottomSheet/BottomSheetContents/RoomButton';
 
-import {BOTTOM_SHEET_LOGIN,BOTTOM_SHEET_ROOM_LOBBY,BOTTOM_SHEET_GENERATE_ROOM,BOTTOM_SHEET_TEST, BOTTOM_SHEET_LOADING,BOTTOM_SHEET_ROOM_QUESTIONS,BOTTOM_SHEET_ROOM_TICKET,BOTTOM_SHEET_ENTER_ROOM,BOTTOM_SHEET_ANSWER_QUESTIONS} from 'store/modules/bottomSheetState';
+import {
+    BOTTOM_SHEET_LOGIN,
+    BOTTOM_SHEET_ROOM_LOBBY,
+    BOTTOM_SHEET_GENERATE_ROOM,
+    BOTTOM_SHEET_TEST, 
+    BOTTOM_SHEET_LOADING,
+    BOTTOM_SHEET_ROOM_QUESTIONS,
+    BOTTOM_SHEET_ROOM_TICKET,
+    BOTTOM_SHEET_ENTER_ROOM,
+    BOTTOM_SHEET_ANSWER_QUESTIONS,
+    BOTTOM_SHEET_RESULT
+} from 'store/modules/bottomSheetState';
 
 import GenerateRoomContent from 'components/BottomSheet/BottomSheetContents/GenerateRoomContent';
 
@@ -18,6 +29,9 @@ import BottomSheetRoomTicket from './BottomSheetRoomTicket';
 import BottomSheetEntertRoom from './BottomSheetEntertRoom';
 
 import BottomSheetAnswerQuestions from './BottomSheetAnswerQuestions';
+
+import BottomSheetResult from './BottomSheetResult';
+
 
 const Wrapper = styled.div`
     position: relative;
@@ -103,6 +117,17 @@ const BottomSheetContent = ({contetRef}) => {
                 </>
             );
         }
+        // BOTTOM_SHEET_RESULT
+        case BOTTOM_SHEET_RESULT: {
+            return(
+                <>
+                    <Wrapper ref = {contetRef}>
+                        <BottomSheetResult roomCode={bottomSheetState.data}/>
+                    </Wrapper>
+                </>
+            );
+        }
+
         // BOTTOM_SHEET_ROOM_QUESTIONS
         case BOTTOM_SHEET_ROOM_QUESTIONS: {
             return(

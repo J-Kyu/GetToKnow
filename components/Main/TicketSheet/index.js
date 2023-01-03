@@ -5,7 +5,15 @@ import {Button} from 'antd';
 import Countdown from "react-countdown";
 import { useDispatch } from 'react-redux';
 import {UserOutlined} from '@ant-design/icons';
-import {BOTTOM_SHEET_ON,BOTTOM_SHEET_ANSWER_QUESTIONS} from '@/store/modules/bottomSheetState';
+import {
+    BOTTOM_SHEET_ON,
+    BOTTOM_SHEET_ANSWER_QUESTIONS,
+    BOTTOM_SHEET_RESULT
+} from '@/store/modules/bottomSheetState';
+
+import {
+    ROOM_RESULT_REQUEST
+} from "@/store/modules/roomResultState"
 
 
 const SheetWrapper = styled.div` 
@@ -29,6 +37,7 @@ const TicketWrapper = styled.div`
     gap: 5vw;
     padding: 5vw;
     margin-bottom: 5vh;
+
 
 
     background-color: white;
@@ -217,8 +226,15 @@ const DoneTicketElement = ({roomInfo}) => {
 
     const [complete, setComplete] = useState(false);
 
+
     const DoneButtonHandler = useCallback(() => {
         //go to answer question sheet
+
+
+        dispatch({
+            type: BOTTOM_SHEET_RESULT,
+            data: roomInfo.code
+        });
 
         //open bottom sheet
         dispatch({type: BOTTOM_SHEET_ON });

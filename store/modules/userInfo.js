@@ -18,9 +18,7 @@ const initialState = {
     signUpDone: false,
     signUpError: null,
 
-    me: null,
-    signUpData: {},
-    loginData: {},
+    me: null
 };
 
 
@@ -34,6 +32,9 @@ const dummyUser = (data) => ({
 export const LOG_IN_REQUEST = 'userInfo/LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'userInfo/LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'userInfo/LOG_IN_FAILURE';
+
+export const SAVE_KAKAO_ACCESS_TOKEN = 'userInfo/SAVE_KAKAO_ACCESS_TOKEN'; 
+
 
 export const LOAD_USER_INFO_REQUEST = 'userInfo/LOAD_USER_INFO_REQUEST';
 export const LOAD_USER_INFO_SUCCESS = 'userInfo/LOAD_USER_INFO_SUCCESS';
@@ -70,9 +71,7 @@ const userSlice = createSlice({
 
         LOAD_USER_INFO_REQUEST: (state, action) => {LoadUserInfoRequest(state,action);},
         LOAD_USER_INFO_SUCCESS: (state, action) => {LoadUserInfoSuccess(state,action);},
-        LOAD_USER_INFO_FAILURE: (state, action) => {LoadUserInfoFailure(state,action);},    
-
-
+        LOAD_USER_INFO_FAILURE: (state, action) => {LoadUserInfoFailure(state,action);}
     },
 });
 
@@ -113,6 +112,7 @@ function LogOutRequest(state){
     state.logOutLoading = true;
     state.logOutError = null;
     state.logOutDone = false;
+    state.me = null;
 }
 
 function LogOutSuccess(state){
@@ -125,5 +125,6 @@ function LogOutFailure(state,action){
     state.logOutLoading = false;
     state.logOutError = action.error;
 }
+
 
 export default userSlice.reducer; // 리듀서;

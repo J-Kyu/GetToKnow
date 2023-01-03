@@ -16,6 +16,7 @@ import {
   BOTTOM_SHEET_ROOM_TICKET,
   BOTTOM_SHEET_ENTER_ROOM,
   BOTTOM_SHEET_ANSWER_QUESTIONS,
+  BOTTOM_SHEET_RESULT,
   BOTTOM_SHEET_ON,
   BOTTOM_SHEET_OFF
 } from 'store/modules/bottomSheetState';
@@ -154,6 +155,14 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
       //Update Header Title
       setHeaderTitle("답 하기");
 
+      break;
+    }
+    case  BOTTOM_SHEET_RESULT:{
+      setMinTransY(-window.innerHeight*(BOTTOM_SHEET_MAX_HEIGHT)/100);
+      sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
+
+      //Update Header Title
+      setHeaderTitle("결과");
       break;
     }
     default: {
