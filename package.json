@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev",
+    "build": "next build",
     "start": "next start"
   },
   "author": "j-kyu",
@@ -24,6 +25,7 @@
     "next": "^13.0.3",
     "next-qrcode": "^2.3.0",
     "next-redux-wrapper": "^8.0.0",
+    "pm2": "^5.2.2",
     "prop-types": "^15.8.1",
     "react-chartjs-2": "^5.1.0",
     "react-countdown": "^2.3.5",
