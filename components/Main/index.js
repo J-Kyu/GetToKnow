@@ -60,7 +60,9 @@ const Main = () => {
         switch(userInfo.me.oauthType){
             case "KAKAO":{
 
-                const redirect_uri = "http://localhost:3000/";
+                // const redirect_uri = "http://localhost:3000/";
+                const redirect_uri = "http://52.78.139.73:80/";
+
                 const client_id = "7a1c46fc786b5ec707331c14f8a4f95b";
                 const KAKAO_LOG_OUT_URL = `https://kauth.kakao.com/oauth/logout?client_id=${client_id}&logout_redirect_uri=${redirect_uri}`;
                 console.log("KAKAO Log Out");
