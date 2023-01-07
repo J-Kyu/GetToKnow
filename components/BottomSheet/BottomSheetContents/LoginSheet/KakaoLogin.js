@@ -19,7 +19,7 @@ const KakaoBtnImg = styled.div`
 
 const CLIENT_ID = "7a1c46fc786b5ec707331c14f8a4f95b";
 // const REDIRECT_URI =  "http://localhost:3000/oauth";
-const REDIRECT_URI =  "http://52.78.139.73:80/oauth";
+const REDIRECT_URI =  "http://gettoknow.life/oauth/";
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const KakaoLogin = () => {
