@@ -7,6 +7,10 @@ import {
     LOG_IN_REQUEST
 } from "@/store/modules/userInfo"
 
+import {
+    BOTTOM_SHEET_ROOM_LOBBY,
+} from 'store/modules/bottomSheetState';
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -34,22 +38,26 @@ const LoginContent = () => {
     };
 
 
- 
-    return (
-        <>
-            {
-                userInfo.me !== null
-                ? <div>GOOD</div>
-                :   <Wrapper>
-                        {/* <Button type="primary" onClick={testLogIn} loading={userInfo.logInLoading}>Kakao</Button> */}
+    if (userInfo.me == null){
+        return(
+            <>
+                <Wrapper>
                         <KakaoLogin/>
                         <Button type='primary' onClick={AdminLogin}>
                             Admin Login
                         </Button>
-                    </Wrapper>
-            }
+                </Wrapper>
+            </>
+        );
+    }
+    else{
+        // move to room lobby
+        dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
+        return(
+        <>
         </>
-    );
+        );
+    }
 };
 
 export default LoginContent;
