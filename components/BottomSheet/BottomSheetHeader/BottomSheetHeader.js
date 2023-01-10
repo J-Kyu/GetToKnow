@@ -189,9 +189,6 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
       //set bottom sheet max translate
       sheetRef.current.style.setProperty('transform', `translateY(${maxTransY}px)`);
 
-      //hide option button
-      // optionButtonRef.current.style.setProperty('transform', `scale(0)`); 
-      // optionButtonRef.current.style.setProperty('font-size', `0rem`);
     }
     // increase bottom sheet
     else{
@@ -199,10 +196,6 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
       dirButtonRef.current.style.setProperty('transform', `rotate(0.5turn)`);
       //set bottom sheet max translate
       sheetRef.current.style.setProperty('transform', `translateY(${minTransY}px)`);
-
-      //open option button
-      // optionButtonRef.current.style.setProperty('transform', `scale(1)`);
-      // optionButtonRef.current.style.setProperty('font-size', `1.5rem`);
 
     }
 
@@ -223,10 +216,6 @@ const BottomSheetHeader = ({sheetRef, setBottomSheetOpen, dirButtonRef }) => {
     }
   },[bottomSheetState.sheetOpen]);
 
-  //option button controller
-  useEffect(()=>{
-    // console.log(userInfo.me);
-  }, [userInfo.me]);
 
   return (
       <>

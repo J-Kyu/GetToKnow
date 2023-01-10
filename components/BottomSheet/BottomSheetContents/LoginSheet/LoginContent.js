@@ -37,27 +37,26 @@ const LoginContent = () => {
          })
     };
 
+    //skip login if already logged in
+    useEffect(() => {
+        if(userInfo.me !== null){
+            dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
+        }
 
-    if (userInfo.me == null){
-        return(
-            <>
-                <Wrapper>
-                        <KakaoLogin/>
-                        <Button type='primary' onClick={AdminLogin}>
-                            Admin Login
-                        </Button>
-                </Wrapper>
-            </>
-        );
-    }
-    else{
-        // move to room lobby
-        dispatch({type: BOTTOM_SHEET_ROOM_LOBBY});
-        return(
+    },[userInfo.me]);
+
+
+    return(
         <>
+            <Wrapper>
+                    <KakaoLogin/>
+                    <Button type='primary' onClick={AdminLogin}>
+                        Admin Login
+                    </Button>
+            </Wrapper>
         </>
-        );
-    }
+    );
+
 };
 
 export default LoginContent;
