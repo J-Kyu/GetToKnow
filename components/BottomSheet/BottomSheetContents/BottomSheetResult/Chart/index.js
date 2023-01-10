@@ -22,6 +22,10 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
+const ChartWrapper = styled.div`
+  width: 50vw;
+`;
  
 
 
@@ -93,7 +97,11 @@ const RadarChart = ({data}) => {
   const options = {
     scales: {
         r: {
+          beginAtZero: true,
+          min: 0, 
+          max: 5,
           ticks: {
+            stepSize: 1,
             display: false,
             color: 'red'
           },
@@ -115,10 +123,15 @@ const RadarChart = ({data}) => {
   }
 
   return (
-      <Radar 
-          data={chartData} 
-          options={options}
-      />
+    <>
+      <ChartWrapper>
+        <Radar 
+            data={chartData} 
+            options={options}
+        />
+      </ChartWrapper>
+    </>
+
   );
 
 

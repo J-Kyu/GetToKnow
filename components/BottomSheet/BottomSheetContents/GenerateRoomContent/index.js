@@ -45,10 +45,10 @@ const GenerateRoomContent = () => {
 
     //types
     const options = [
-        {value:"TYPE_A",label:"TYPE_A"},
-        {value:"TYPE_B",label:"TYPE_B"},
-        {value:"TYPE_C",label:"TYPE_C"},
-        {value:"TYPE_D",label:"TYPE_D"}
+        {value:"TYPE_A",label:"테스티 타입"},
+        // {value:"TYPE_B",label:"TYPE_B"},
+        // {value:"TYPE_C",label:"TYPE_C"},
+        // {value:"TYPE_D",label:"TYPE_D"}
     ];
    
 
